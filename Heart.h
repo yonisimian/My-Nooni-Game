@@ -11,7 +11,7 @@ public:
 	//Constructor
 	Heart(gameDataRef data);
 	//Destructor 
-	~Heart() {}
+	~Heart();
 	//Sets the position of the heart
 	void setPosition(sf::Vector2f position);
 	//Gets isSpinning and set heart's spinning according
