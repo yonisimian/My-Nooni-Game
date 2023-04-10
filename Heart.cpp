@@ -16,16 +16,10 @@ Heart::Heart(gameDataRef data) : data(data)
 	animation->startAction("green mood");
 }
 
-//Updates heart's animation
-void Heart::update()
+//Gets a vector2f and sets the position of the heart according
+void Heart::setPosition(sf::Vector2f position)
 {
-	animation->animation();
-}
-
-//Draws heart
-void Heart::draw()
-{
-	animation->draw();
+	animation->setPosition(position);
 }
 
 //Gets isSpinning and set heart's spinning according
@@ -45,18 +39,6 @@ void Heart::setIsSpinning(bool isSpinning)
 			animation->startAction(mood);
 		}
 	}
-}
-
-//Restart clock
-void Heart::restartClock()
-{
-	animation->restartClock();
-}
-
-//Gets a vector2f and sets the position of the heart according
-void Heart::setPosition(sf::Vector2f position)
-{
-	animation->setPosition(position);
 }
 
 //Gets a color type and changes the heart according
@@ -79,3 +61,22 @@ void Heart::setColor(int color)
 		animation->startAction(mood);
 	}
 }
+
+//Updates heart's animation
+void Heart::update()
+{
+	animation->animation();
+}
+
+//Draws heart
+void Heart::draw()
+{
+	animation->draw();
+}
+
+//Restart clock
+void Heart::restartClock()
+{
+	animation->restartClock();
+}
+
