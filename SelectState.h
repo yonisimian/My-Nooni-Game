@@ -33,7 +33,7 @@ private:
 	sf::Sprite effect; //Effect of mouse touches an egg
 
 	sf::Font font;
-	sf::Text text[4]; //Array of eggs' names
+	sf::Text text[NUMBER_EGG]; //Array of eggs' names
 
 	sf::Sprite animalButtons[NUMBER_EGG];
 
