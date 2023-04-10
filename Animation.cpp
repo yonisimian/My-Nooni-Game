@@ -30,12 +30,6 @@ std::string Animation::getCurrentAction()
 	return currentAction;
 }
 
-//Gets a color and changes the sprite's color according
-void Animation::setColor(sf::Color color)
-{
-	sprite.setColor(color);
-}
-
 //Sends the width of the sprite
 float Animation::getSpriteWidth()
 {
@@ -58,6 +52,12 @@ sf::Vector2f Animation::getPosition()
 void Animation::setPosition(sf::Vector2f position)
 {
 	sprite.setPosition(position);
+}
+
+//Gets a color and changes the sprite's color according
+void Animation::setColor(sf::Color color)
+{
+	sprite.setColor(color);
 }
 
 //Gets name of the action, first and last indexes of frames, the time for each frame to be drawn and if the animation includes a reversion
