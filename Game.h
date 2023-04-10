@@ -40,10 +40,12 @@ public:
 private:
 	//Runs the game window 
 	void run();
+	
 	const float dt = 1.0f / 60.0f;
 	sf::Clock clock;
 
 	sf::Sprite soundButton;
+	
 	static bool isGameOver; //Tells if game is over
 
 	gameDataRef data = std::make_shared<GameDate>();
