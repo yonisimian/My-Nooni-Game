@@ -297,5 +297,6 @@ int Pet::mood()
 Pet::~Pet()
 { 
 	delete heart; 
+	delete animation;
 	needs.clear(); 
 }
