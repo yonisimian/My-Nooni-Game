@@ -80,3 +80,8 @@ void Heart::restartClock()
 	animation->restartClock();
 }
 
+//Destructor 
+Heart::~Heart()
+{
+	delete animation;
+}
