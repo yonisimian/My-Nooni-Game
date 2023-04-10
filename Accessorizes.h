@@ -12,14 +12,14 @@ public:
 	Accessorizes(gameDataRef data);
 	//Destructor
 	~Accessorizes() { }
+	//Set visibility of table
+	void setVisibleTable();
 	//Handles inout
 	int handleInput(sf::Event event);
 	//Draws
 	void draw();
 	//Stop the use of an accessory
 	void stopUse();
-	//Set visibility of table
-	void setVisibleTable();
 	//Draws table
 	void drawTable();
 
