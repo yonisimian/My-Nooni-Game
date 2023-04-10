@@ -12,18 +12,19 @@ public:
 	Heart(gameDataRef data);
 	//Destructor 
 	~Heart() {}
+	//Sets the position of the heart
+	void setPosition(sf::Vector2f position);
+	//Gets isSpinning and set heart's spinning according
+	void setIsSpinning(bool isSpinning);
+	//Changes the color of the heart
+	void setColor(int color);
 	//Updates heart's frames
 	void update();
 	//Draws heart
 	void draw();
-	//Gets isSpinning and set heart's spinning according
-	void setIsSpinning(bool isSpinning);
 	//Restarts clock
 	void restartClock();
-	//Sets the position of the heart
-	void setPosition(sf::Vector2f position);
-	//Changes the color of the heart
-	void setColor(int color);
+
 
 private:
 	Animation *animation;
