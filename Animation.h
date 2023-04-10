@@ -25,16 +25,24 @@ public:
 	Animation(gameDataRef data, const std::string& textureFileName, int numFrames, sf::Vector2f position);
 	//Destructor
 	~Animation() {}
+	//Sends the name of the current action is being played
+	std::string getCurrentAction();
+	//Sends the sprite's width
+	float getSpriteWidth();
+	//Sends the sprite's height
+	float getSpriteHeigth();
+	//Sends the current position of the sprite
+	sf::Vector2f getPosition();
+	//Changes the current position of the sprite
+	void setPosition(sf::Vector2f position);
+	//Changes the color of the sprite
+	void setColor(sf::Color color);
 	//Adding new action for sprite
 	void addAction(const std::string& actionName, int firstFrame, int lastFrame, float time, bool isReverse);
 	//Changing the time of a frame
 	void changeFrameTime(const std::string& actionName, int frameNumber, float time);
 	//Playes action
 	void startAction(const std::string& actionName);
-	//Sending the current position of the sprite
-	sf::Vector2f getPosition();
-	//Changing the current position of the sprite
-	void setPosition(sf::Vector2f position);
 	//Animates the sprite by changing frames according time
 	bool animation();
 	//Draws the sprite
@@ -43,14 +51,6 @@ public:
 	void restartClock();
 	//Handles the input
 	bool handleInput(sf::Event event);
-	//Sends the name of the current action is being played
-	std::string getCurrentAction();
-	//Changes the color of the sprite
-	void setColor(sf::Color color);
-	//Sends the sprite's width
-	float getSpriteWidth();
-	//Sends the sprite's height
-	float getSpriteHeigth();
 
 private:
 
