@@ -26,6 +26,12 @@ Accessorizes::Accessorizes(gameDataRef data) : data(data)
 	accessorizes.at(3).setPosition(sf::Vector2f(400, 540));
 }
 
+//Set visibility of table
+void Accessorizes::setVisibleTable()
+{
+	visibleTable = !visibleTable;
+}
+
 //Handles input if one accessory is being touched by the mouse
 int Accessorizes::handleInput(sf::Event event)
 {
@@ -61,12 +67,6 @@ void Accessorizes::stopUse()
 		accessorizes.at(typeUsed).setTexture(data->assets.getTexture("Accessorize " + std::to_string(typeUsed)));
 		typeUsed = -1;
 	}
-}
-
-//Set visibility of table
-void Accessorizes::setVisibleTable()
-{
-	visibleTable = !visibleTable;
 }
 
 //Draws table
