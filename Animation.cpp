@@ -24,6 +24,42 @@ Animation::Animation(gameDataRef data, const std::string& textureFileName, int n
 	sprite.setPosition(position);
 }
 
+//Sends the current action is played
+std::string Animation::getCurrentAction()
+{
+	return currentAction;
+}
+
+//Gets a color and changes the sprite's color according
+void Animation::setColor(sf::Color color)
+{
+	sprite.setColor(color);
+}
+
+//Sends the width of the sprite
+float Animation::getSpriteWidth()
+{
+	return sprite.getGlobalBounds().width;
+}
+
+//Sends the height of the sprite
+float Animation::getSpriteHeigth()
+{
+	return sprite.getGlobalBounds().height;
+}
+
+//Sends the position of the sprite
+sf::Vector2f Animation::getPosition()
+{
+	return sprite.getPosition();
+}
+
+//Gets a vector2f  and changes the position of the sprite
+void Animation::setPosition(sf::Vector2f position)
+{
+	sprite.setPosition(position);
+}
+
 //Gets name of the action, first and last indexes of frames, the time for each frame to be drawn and if the animation includes a reversion
 //and add the new action into actions
 void Animation::addAction(const std::string& actionName, int firstFrame, int lastFrame, float time, bool isReverse)
@@ -78,17 +114,7 @@ void Animation::startAction(const std::string& actionName)
 	}
 }
 
-//Sends the position of the sprite
-sf::Vector2f Animation::getPosition()
-{
-	return sprite.getPosition();
-}
 
-//Gets a vector2f  and changes the position of the sprite
-void Animation::setPosition(sf::Vector2f position)
-{
-	sprite.setPosition(position);
-}
 
 //Animates the sprite
 bool Animation::animation()
@@ -175,28 +201,4 @@ bool Animation::handleInput(sf::Event event)
 		return true;
 	}
 	return false;
-}
-
-//Sends the current action is played
-std::string Animation::getCurrentAction()
-{
-	return currentAction;
-}
-
-//Gets a color and changes the sprite's color according
-void Animation::setColor(sf::Color color)
-{
-	sprite.setColor(color);
-}
-
-//Sends the width of the sprite
-float Animation::getSpriteWidth()
-{
-	return sprite.getGlobalBounds().width;
-}
-
-//Sends the height of the sprite
-float Animation::getSpriteHeigth()
-{
-	return sprite.getGlobalBounds().height;
 }
