@@ -29,9 +29,9 @@ You can control the game with mouse only.<br><br>
 
 
 There is an exit button on every screen so you can go back/exit the game by pressing it.<br>
-There is an audio button on every screen so you can on/off music by pressing it.<br>
-There is a pause button on levels, speak state and yard state so you can pause game whenever you need.<br>
-Getting mouse off the screen also causing a pause mood. Pressing play button resumes the game.
+There is an audio button on every screen so you can turn on/off music by pressing it.<br>
+There is a pause button on each level, speak state and yard state so you can pause the game whenever you need.<br>
+Getting mouse off the screen also causing the pause mood. Pressing play button resumes the game.
 
 
 <h2>Requirements</h2>
