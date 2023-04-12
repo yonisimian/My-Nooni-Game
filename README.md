@@ -13,7 +13,7 @@
  The pet has 5 needs : being petted, eat, sleep, take a bath and play. If all needs go down the game is over.<br><br>
  The game is very easy to understand and each level starts with a speech box with Pam giving an explanation on the level.<br><br>
   
-<img src="https://user-images.githubusercontent.com/118209251/231451990-f5c76e49-2eba-409f-b8e6-c1650b1a4d6b.png" height="410" width="622" ><br>
+<img src="https://user-images.githubusercontent.com/118209251/231451990-f5c76e49-2eba-409f-b8e6-c1650b1a4d6b.png" height="210" width="422" ><br>
 <img src="https://user-images.githubusercontent.com/118209251/231465153-cf8e87e6-597f-4284-b907-8bc1754537f2.png" height="410" width="622" ><br>
 <h2>How To Play</h2>
 You can control the game only with mouse only.<br>
