@@ -16,7 +16,7 @@ void MainState::init()
 	background.setTexture(data->assets.getTexture("Main Menu Background"));
 	data->assets.loadTexture("logo", LOGO);
 	logo.setTexture(data->assets.getTexture("logo"));
-	logo.setPosition(sf::Vector2f(SCREEN_WIDTH / 2 -(logo.getGlobalBounds().width / 2), 10));
+	logo.setPosition(sf::Vector2f(SCREEN_WIDTH / 2 -(logo.getGlobalBounds().width / 2), 120;
 	data->assets.loadTexture("Play Button", BIG_PLAY_BUTTON);
 	playButton.setTexture(data->assets.getTexture("Play Button"));
 	playButton.setPosition(sf::Vector2f(SCREEN_WIDTH / 2 - (playButton.getGlobalBounds().width / 2),
