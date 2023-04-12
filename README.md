@@ -1,4 +1,5 @@
 # My-Nooni-Game
+<img src="https://user-images.githubusercontent.com/118209251/231450808-73613023-c110-40f2-a143-007eac707e45.png" width="50%" height="50%">
 <img
   src="https://user-images.githubusercontent.com/118209251/231450808-73613023-c110-40f2-a143-007eac707e45.png"
   alt="Alt text"
