@@ -5,7 +5,7 @@
 <b> Welcome to My Nooni game </b><br>
 </p>
 <h2>Let's Start</h2>
- The game opens up with a girl called Pam saying she has 4 uniqe pets and asking you to take care for one of them. <br><br>
+ The game starts with a girl called Pam saying she has 4 uniqe pets and asking you to take care for one of them. <br><br>
  <img src="https://user-images.githubusercontent.com/118209251/231461918-202fbd73-8087-419b-b25c-8ab5c31f8d43.png" height="410" width="600" ><br>
  After her speech, you can see a window where you can select an egg and starts the game.<br>
  The pet has three levels of growing, one as an egg, second as a baby and last as an adult.<br>
