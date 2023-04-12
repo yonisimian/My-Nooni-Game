@@ -23,5 +23,6 @@ In order to download the game and play with it you need to have SFML library.<br
 You can download it from here: <a href="https://github.com/SFML/SFML">SFML Download</a>
 
 <h2>Notes</h2>
-The game was developed only by me and graphics where made by artists I'm working with especially for this game.
+The game was developed only by me using the C++ language and SFML library.<br>
+Graphics where made by artists I'm working with especially for this game.
 
