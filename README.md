@@ -1,5 +1,5 @@
 
-# My-Nooni-Game
+# My Nooni Game
 <p align="center">
 <img src="https://user-images.githubusercontent.com/118209251/231450808-73613023-c110-40f2-a143-007eac707e45.png" height="240" width="720" ><br>
 <b> Welcome to My Nooni game </b><br>
