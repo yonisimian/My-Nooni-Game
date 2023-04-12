@@ -23,7 +23,7 @@ You can control the game with mouse only.<br><br>
 * bath - press on the bath<br>
 * pet - press as long as you want on the pet<br>
 * play - press on the toybox and select a game<br>
-* speak - press on the speech button above the screen and select a button word so the pet will learn/say it<br><br>
+* speak - press on the speech button above the screen and select a button word so the pet will learn/say it<br><br><br><br>
 
 There is an exit button on every screen so you can go back/exit the game by pressing it.<br>
 There is an audio button on every screen so you can on/off music by pressing it.<br>
