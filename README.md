@@ -1,5 +1,9 @@
 # My-Nooni-Game
-
+<img
+  src="https://user-images.githubusercontent.com/118209251/231450808-73613023-c110-40f2-a143-007eac707e45.png"
+  alt="Alt text"
+  title="Optional title"
+  style="display: inline-block; margin: 0 auto; max-width: 300px">
 
 ![yard (8)](https://user-images.githubusercontent.com/118209251/231450808-73613023-c110-40f2-a143-007eac707e45.png)
 
