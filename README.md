@@ -19,4 +19,7 @@ You can control the game only with mouse only.<br>
 
 <h2>Requirements</h2>
 In order to download the game and play with it you need to have SFML library.<br>
-You can download it from here: <a href="https://github.com/SFML/SFML">SFML Download</a> 
+You can download it from here: <a href="https://github.com/SFML/SFML">SFML Download</a>
+
+![צילום מסך 2023-04-11 145341](https://user-images.githubusercontent.com/118209251/231465153-cf8e87e6-597f-4284-b907-8bc1754537f2.png)
+
