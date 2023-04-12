@@ -18,15 +18,17 @@
 <img src="https://user-images.githubusercontent.com/118209251/231503774-1bbce850-f210-47fb-8eb1-28983ea40c60.png" height="410" width="600" >
 <h2>How To Play</h2>
 You can control the game with mouse only.<br><br>
-*eat - press on the refrigerator and select food from the menu<br>
-*sleep - press on the bed<br>
-*bath - press on the bath<br>
-*pet - press as long as you want on the pet<br>
-*play - press on the toybox and select a game<br>
-*speak - press on the speech button above the screen and select a button word so the pet will learn/say it<br><br>
+- eat - press on the refrigerator and select food from the menu<br>
+- sleep - press on the bed<br>
+- bath - press on the bath<br>
+- pet - press as long as you want on the pet<br>
+- play - press on the toybox and select a game<br>
+- speak - press on the speech button above the screen and select a button word so the pet will learn/say it<br><br>
 
 There is an exit button on every screen so you can go back/exit the game by pressing it.<br>
-There is an audio button on every screen so you can on/off music by pressing it.
+There is an audio button on every screen so you can on/off music by pressing it.<br>
+There is a pause button on levels, speak state and yard state so you can pause game whenever you need.<br>
+Getting mouse off the screen also cause pause mood. Pressing play button resumes the game.
 
 
 <h2>Requirements</h2>
