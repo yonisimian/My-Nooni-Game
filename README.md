@@ -25,3 +25,5 @@ You can download it from here: <a href="https://github.com/SFML/SFML">SFML Downl
 <h2>Notes</h2>
 The game was developed only by me using the C++ language and SFML library.<br>
 Graphics where made especially for this game by artists I'm working with.
+
+![צילום מסך 2023-04-12 181800](https://user-images.githubusercontent.com/118209251/231503774-1bbce850-f210-47fb-8eb1-28983ea40c60.png)
