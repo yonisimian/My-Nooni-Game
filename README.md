@@ -14,7 +14,8 @@
  The game is very easy to understand and each level starts with a speech box with Pam giving an explanation on the level.<br><br>
   
 <img src="https://user-images.githubusercontent.com/118209251/231451990-f5c76e49-2eba-409f-b8e6-c1650b1a4d6b.png" height="410" width="600" >
-<img src="https://user-images.githubusercontent.com/118209251/231465153-cf8e87e6-597f-4284-b907-8bc1754537f2.png" height="410" width="600" ><br>
+<img src="https://user-images.githubusercontent.com/118209251/231465153-cf8e87e6-597f-4284-b907-8bc1754537f2.png" height="410" width="600" >
+<img src="https://user-images.githubusercontent.com/118209251/231503774-1bbce850-f210-47fb-8eb1-28983ea40c60.png" height="410" width="600" ><br>
 <h2>How To Play</h2>
 You can control the game with mouse only.<br>
 
@@ -25,5 +26,3 @@ You can download it from here: <a href="https://github.com/SFML/SFML">SFML Downl
 <h2>Notes</h2>
 The game was developed only by me using the C++ language and SFML library.<br>
 Graphics where made especially for this game by artists I'm working with.
-
-![צילום מסך 2023-04-12 181800](https://user-images.githubusercontent.com/118209251/231503774-1bbce850-f210-47fb-8eb1-28983ea40c60.png)
