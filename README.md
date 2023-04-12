@@ -5,13 +5,13 @@
 <b> Welcome to My Nooni game </b><br>
 </p>
 <h2>Let's Start</h2>
- The game starts with a girl called Pam saying she has 4 uniqe pets and asking you to take care for one of them. <br>
+ The game starts with a girl called Pam saying she has 4 uniqe pets and asking you to take care for one of them. <br><br>
  <img src="https://user-images.githubusercontent.com/118209251/231461918-202fbd73-8087-419b-b25c-8ab5c31f8d43.png" height="410" width="600" ><br>
  After her speech, you can see a window where you can select an egg and starts the game.<br>
  The pet has three levels of growing, one as an egg, second as a baby and last as an adult.<br>
  The pet can eat, sleep, take a bath, play with you and you can also teach it how to speak.<br>
  The pet has 5 needs : being petted, eat, sleep, take a bath and play. If all needs go down the game is over.<br><br>
- The game is very easy to understand and each level starts with a speech box with Pam giving an explanation on the level.<br>
+ The game is very easy to understand and each level starts with a speech box with Pam giving an explanation on the level.<br><br>
   
 <img src="https://user-images.githubusercontent.com/118209251/231451990-f5c76e49-2eba-409f-b8e6-c1650b1a4d6b.png" height="410" width="600" >
 <img src="https://user-images.githubusercontent.com/118209251/231465153-cf8e87e6-597f-4284-b907-8bc1754537f2.png" height="410" width="600" >
