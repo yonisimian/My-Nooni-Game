@@ -21,3 +21,7 @@ You can control the game only with mouse only.<br>
 <h2>Requirements</h2>
 In order to download the game and play with it you need to have SFML library.<br>
 You can download it from here: <a href="https://github.com/SFML/SFML">SFML Download</a>
+
+<h2>Notes</h2>
+The game was developed only by me and graphics where made by artists I'm working with.
+
