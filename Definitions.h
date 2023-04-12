@@ -221,9 +221,10 @@ enum actions {
 	beingPet, eat, sleep, takingBath, play, growing, talk, intro, stand, openRefrigerator, openBox, GoOtherState
 };
 
-enum accessories {
-	refrigerator, bed, bath, table, toyBox
-};
+/// NOTE: this is an Accessorizes realted enum, it's better be defined there
+// enum accessories {
+// 	refrigerator, bed, bath, table, toyBox
+// };
 
 enum pamTalking {
 	introduce,

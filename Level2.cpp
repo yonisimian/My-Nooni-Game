@@ -47,12 +47,15 @@ bool Level2::handleInput(sf::Event event)
 			{
 				if (actionType == stand)
 				{
-					int choice{};
-					if ((choice = accessories->handleInput(event)) != -1)
-					{
-						useAccessorize(choice); //Use chosen accessory
-					}
-					else
+					// Accessorizes::AccessoryType choice{accessories->handleInput(event)};
+					// if (choice != Accessorizes::AccessoryType::NO_ACCESSORY)
+					// {
+					// 	useAccessorize(choice); //Use chosen accessory
+					// }
+
+					/// NOTE: it's good to initialize "choice" with the right value in first place...
+					///		  but it's even better to reduce the "if else" into an "if".
+					if (!useAccessorize(accessories->handleInput(event)))
 					{
 						if (data->input.isSpriteClicked(speakButton, sf::Mouse::Left, data->window))
 						{
@@ -68,7 +71,7 @@ bool Level2::handleInput(sf::Event event)
 								if ((mousePosition.x >= TOYBOX_LEFT_X && mousePosition.x <= TOYBOX_RIGHT_X) &&
 									(mousePosition.y >= TOYBOX_LEFT_Y && mousePosition.y <= TOYBOX_RIGHT_Y))
 								{
-									useAccessorize(toyBox);
+									useAccessorize(Accessorizes::AccessoryType::TOY_BOX);
 								}
 							}
 						}
@@ -164,25 +167,27 @@ void Level2::shower()
 }
 
 //Start Accessorize's action
-void Level2::useAccessorize(int accessorizeType)
+bool Level2::useAccessorize(Accessorizes::AccessoryType accessorizeType)
 {
 	switch (accessorizeType)
 	{
-	case refrigerator:
+	case Accessorizes::AccessoryType::REFRIGERATOR:
 		actionType = openRefrigerator;
 		break;
-	case bed:
+	case Accessorizes::AccessoryType::BED:
 		goSleep();
 		break;
-	case bath:
+	case Accessorizes::AccessoryType::BATH:
 		shower();
 		break;
-	case toyBox:
+	case Accessorizes::AccessoryType::TOY_BOX:
 		actionType = openBox;
 		break;
 	default:
-		break;
+		return false;
 	}
+
+	return true;
 }
 
 //Stops current action
