@@ -14,12 +14,10 @@
  The game is very easy to understand and each level starts with a speech box with Pam giving an explanation on the level.<br><br>
   
 <img src="https://user-images.githubusercontent.com/118209251/231451990-f5c76e49-2eba-409f-b8e6-c1650b1a4d6b.png" height="410" width="632" ><br>
+<img src="https://user-images.githubusercontent.com/118209251/231465153-cf8e87e6-597f-4284-b907-8bc1754537f2.png" height="410" width="632" ><br>
 <h2>How To Play</h2>
 You can control the game only with mouse only.<br>
 
 <h2>Requirements</h2>
 In order to download the game and play with it you need to have SFML library.<br>
 You can download it from here: <a href="https://github.com/SFML/SFML">SFML Download</a>
-
-![צילום מסך 2023-04-11 145341](https://user-images.githubusercontent.com/118209251/231465153-cf8e87e6-597f-4284-b907-8bc1754537f2.png)
-
