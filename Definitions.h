@@ -83,6 +83,8 @@
 #define BOO "graphics/Pet/Pug/"
 #define ANGEL "graphics/Pet/Bunny/"
 
+//Effect information
+#define NO_EFFECT -1
 //Effect folders
 #define BATH_ANIMATION "graphics/Effects/Water/bath"
 #define SLEEP_ANIMATION "graphics/Effects/Sleep/"
