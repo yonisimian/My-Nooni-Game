@@ -2,10 +2,8 @@
 #include "Definitions.h"
 
 //Constructor gets a data
-Heart::Heart(gameDataRef data) : data(data)
+Heart::Heart(gameDataRef data) : mood("green mood"), data(data)
 {
-	mood = "green mood";
-
 	animation = new Animation(data, HEART, 7);
 	//Creates actions for the heart
 	animation->addAction("green mood", 0, 0, 0, false);
