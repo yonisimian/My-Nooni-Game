@@ -13,7 +13,7 @@ public:
 	//Constructor
 	Menu(gameDataRef data, SoundManage* sounds, int elementsNumber);
 	//Destructor
-	~Menu() { }
+	~Menu() = default;
 	//Draws the menu
 	void draw();
 	//Handles input
