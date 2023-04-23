@@ -3,10 +3,8 @@
 #include "Definitions.h"
 
 //Constructor gets a data
-EffectsControl::EffectsControl(gameDataRef data) : data(data)
+EffectsControl::EffectsControl(gameDataRef data) : currentEffect(NO_EFFECT), data(data)
 {
-	currentEffect = -1;
-	countAnimation = 0;
 	addEffects();
 }
 
@@ -58,7 +56,7 @@ void EffectsControl::addEffects()
 //Draws current effect
 void EffectsControl::draw()
 {
-	if (currentEffect > -1)
+	if (currentEffect > NO_EFFECT)
 	{
 		effects.at(currentEffect)->draw();
 	}
@@ -67,15 +65,14 @@ void EffectsControl::draw()
 //Updates current effect frames
 void EffectsControl::update()
 {
-	if (currentEffect > -1)
+	if (currentEffect > NO_EFFECT)
 	{
 		if(effects.at(currentEffect)->animation() && currentEffect != beingPettedEffect)
 		{
 			countAnimation++;
 			if (countAnimation == maxAnimation) //If current effect is animated maxAnimation times - stop effect
 			{
-				currentEffect = -1;
-				countAnimation = 0;
+				currentEffect = NO_EFFECT;
 			}
 		}
 	}
@@ -104,28 +101,29 @@ void EffectsControl::startEffect(int effectNumber)
 			}
 		}
 		effects.at(currentEffect)->startAction("effect");
+		countAnimation = 0;
 	}
 }
 
 //Sends if effects is being played
 bool EffectsControl::isEffect()
 {
-	return (currentEffect > -1);
+	return (currentEffect > NO_EFFECT);
 }
 
 //Stops current effect
 void EffectsControl::stopEffect()
 {
-	if (currentEffect > -1)
+	if (currentEffect > NO_EFFECT)
 	{
-		currentEffect = -1;
+		currentEffect = NO_EFFECT;
 	}
 }
 
 //Restarts clock of current effect
 void EffectsControl::restartClock()
 {
-	if (currentEffect > -1)
+	if (currentEffect > NO_EFFECT)
 	{
 		effects.at(currentEffect)->restartClock();
 	}
