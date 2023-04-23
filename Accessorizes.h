@@ -11,7 +11,7 @@ public:
 	//Constructor
 	Accessorizes(gameDataRef data);
 	//Destructor
-	~Accessorizes() { }
+	~Accessorizes() = default;
 	//Set visibility of table
 	void setVisibleTable();
 	//Handles inout
