@@ -2,11 +2,8 @@
 #include "Definitions.h"
 
 //Constructor gets a data
-Accessorizes::Accessorizes(gameDataRef data) : data(data)
+Accessorizes::Accessorizes(gameDataRef data) : visibleTable(false), typeUsed(NO_ACCESSORY), data(data)
 {
-	visibleTable = false;
-	typeUsed = -1;
-
 	data->assets.loadTexture("Accessorize 0", REFRIGERATOR);
 	data->assets.loadTexture("Accessorize 1", BED);
 	data->assets.loadTexture("Accessorize 2", BATH);
@@ -47,7 +44,7 @@ int Accessorizes::handleInput(sf::Event event)
 			return i;
 		}
 	}
-	return -1;
+	return NO_ACCESSORY;
 }
 
 //Draws accessorizes
@@ -65,7 +62,7 @@ void Accessorizes::stopUse()
 	if (typeUsed >= refrigerator && typeUsed <= bed)
 	{
 		accessorizes.at(typeUsed).setTexture(data->assets.getTexture("Accessorize " + std::to_string(typeUsed)));
-		typeUsed = -1;
+		typeUsed = NO_ACCESSORY;
 	}
 }
 
