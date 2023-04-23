@@ -12,7 +12,7 @@ public:
 	//Constructor
 	SoundManage(gameDataRef data);
 	//Destructor
-	~SoundManage() {}
+	~SoundManage() = default;
 	//Gets if sound is on or not
 	bool getIsSound();
 	//Sets sounds volume - off or on
