@@ -9,7 +9,7 @@ public:
 	//Constructor
 	BigPam(gameDataRef data, int type);
 	//Destructor
-	~BigPam() { }
+	~BigPam() = default;
 	//Draws the window with pam
 	void draw();
 
