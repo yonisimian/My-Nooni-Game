@@ -10,7 +10,7 @@ public:
 	//Constructor
 	Pam(gameDataRef data);
 	//Destructor
-	~Pam() { }
+	~Pam() = default;
 	//Gets if speech is over
 	bool getIsDone();
 	//Draws
