@@ -63,6 +63,7 @@
 
 //Accessorises information
 #define ACCESSORIES_NUBER 4
+#define NO_ACCESSORY -1
 //Accessorises files
 #define REFRIGERATOR "graphics/Accessories/refrigerator.png"
 #define BED "graphics/Accessories/bed.png"
