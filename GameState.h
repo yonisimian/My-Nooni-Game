@@ -16,7 +16,7 @@ public:
 	//Constructor
 	GameState(gameDataRef data, SoundManage* sounds, EffectsControl* effects, Pet* pet);
 	//Destructor
-	~GameState() { }
+	~GameState() = default;
 	//Init method
 	void init();
 	//Handles input
