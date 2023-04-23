@@ -5,11 +5,8 @@
 
 //Constructor gets a data, sounds, a pet and a vector says which word is blocked by the index of it
 SpeakState::SpeakState(gameDataRef data, SoundManage* sounds, EffectsControl* effects, Pet *pet, std::vector <bool>& blockedWords) :
-	GameState(data, sounds, effects, pet), blockedWords(blockedWords)
+	GameState(data, sounds, effects, pet), blockedWords(blockedWords), isSpeaking(false), isLearning(false), wordIndex(0)
 {
-	isSpeaking = isLearning = false;
-	wordIndex = 0;
-	startPetTime = 0;
 	sounds->switchBackground(LearningSound);
 	//Checks if at least one of the words isn't blocked and if so - changes actionType to be stand
 	for (int i = 0; i < blockedWords.size(); i++)
@@ -90,45 +87,45 @@ void SpeakState::draw(float dt)
 //Handles input of pam and words' buttons
 bool SpeakState::handleInput(sf::Event event)
 {
-	if (GameState::handleInput(event))
+	if (!GameState::handleInput(event))
 	{
-		return true;
-	}
-	if (actionType == intro)
-	{
-		pam->handleInput(event);
-	}
-	else
-	{
-		if (!isPause)
+		if (actionType == intro)
 		{
-			bool isPetTouched = pet->handleInput(event);
-			if (actionType == stand)
-			{			
-				if (isPetTouched)
-				{
-					touchPet(); //Starts petting the pet
-					return true;
-				}
-				for (int i = 0; i < wordsButtons.size(); i++)
-				{
-					if (data->input.isSpriteClicked(wordsButtons.at(i), sf::Mouse::Left, data->window))
+			pam->handleInput(event);
+		}
+		else
+		{
+			if (!isPause)
+			{
+				bool isPetTouched = pet->handleInput(event);
+				if (actionType == stand)
+				{			
+					if (isPetTouched)
 					{
-						sounds->playGameSound(mouseClickSound);
-						speak(i); //Starts speak
-						return true;
+						touchPet(); //Starts petting the pet
+					}
+					else
+					{	
+						for (int i = 0; i < wordsButtons.size(); i++)
+						{
+							if (data->input.isSpriteClicked(wordsButtons.at(i), sf::Mouse::Left, data->window))
+							{
+								sounds->playGameSound(mouseClickSound);
+								speak(i); //Starts speak
+								break;
+							}
+						}
+					}
+				}
+				else
+				{
+					if (actionType == beingPet && (event.type == sf::Event::MouseButtonReleased))
+					{
+						stopAction(); //Stops current action
 					}
 				}
 			}
-			else
-			{
-				if (actionType == beingPet && (event.type == sf::Event::MouseButtonReleased))
-				{
-					stopAction(); //Stops current action
-					return true;
-				}
-			}
-		}
+		}	
 	}
 	return true;
 }
@@ -208,7 +205,7 @@ void SpeakState::stopAction()
 			wordsButtons.at(wordIndex).setTexture(data->assets.getTexture("Unlocked Word")); //Change word button to unlocked
 			blockedWords.at(wordIndex) = false;
 			isLearning = false;
-			speak(wordIndex); //Say the word again
+			speak(wordIndex); //Say the word learned
 		}
 		else
 		{
