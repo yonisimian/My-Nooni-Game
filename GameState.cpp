@@ -5,10 +5,8 @@
 
 //Constructor gets a data, sounds, effects and a pet
 GameState::GameState(gameDataRef data, SoundManage* sounds, EffectsControl* effects, Pet* pet) :
-	data(data), sounds(sounds), pet(pet), effects(effects) 
+	data(data), sounds(sounds), pet(pet), effects(effects), isPause(false), exactTime(0)
 { 
-	isPause = false;
-	exactTime = 0;
 }
 
 //Removes the state
