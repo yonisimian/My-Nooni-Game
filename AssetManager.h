@@ -11,7 +11,7 @@ public:
 	//Constructor
 	AssetManager() {}
 	//Destructor
-	~AssetManager() {}
+	~AssetManager() = default;
 	//Gets two strings, name for texture and the file name and loads the file into textures
 	void loadTexture(std::string, std::string);
 	//Gets a name and returns a texture by the name from textures
