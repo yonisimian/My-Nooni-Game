@@ -3,10 +3,8 @@
 #include <iostream>
 
 //Constructor gets a data
-TicTacToe::TicTacToe(gameDataRef data) : data(data)
+TicTacToe::TicTacToe(gameDataRef data) : gameState(STATE_PLAYING), data(data)
 {
-	gameState = STATE_PLAYING; //User turn to play
-
 	this->ai = new Ai(data);
 	//Loads game board and pieces
 	data->assets.loadTexture("Grid Sprite", GRID_SPRITE_FILEPATH);
