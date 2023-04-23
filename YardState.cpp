@@ -3,16 +3,8 @@
 
 //Constructor get a data, sounds, effects, a pet and a type of game to play with the pet
 YardState::YardState(gameDataRef data, SoundManage* sounds, EffectsControl *effects, Pet* pet, int gameType) :
-      GameState(data, sounds, effects, pet) , gameType(gameType)
+      GameState(data, sounds, effects, pet) , gameType(gameType), actionType(stand)
 { 
-    actionType = stand;
-
-    //Checks if gameType has a valid value
-    if (gameType < ball && gameType > tic_tac_toe)
-    {
-       this->gameType = ball;
-    }
-
     if (gameType == tic_tac_toe)
     {
         isPlayed = true;
@@ -20,6 +12,10 @@ YardState::YardState(gameDataRef data, SoundManage* sounds, EffectsControl *effe
     }
     else
     {
+      if (gameType < ball && gameType > tic_tac_toe) //Checks if gameType has a valid value
+       {
+            this->gameType = ball;
+       }
         isPlayed = false;
     }
 }
@@ -35,36 +31,35 @@ void YardState::init()
 //Handles input of the games
 bool YardState::handleInput(sf::Event event)
 {
-    if (GameState::handleInput(event))
+    if (!GameState::handleInput(event))
     {
-        return true;
-    }
-    if (!isPause)
-    {
-        if (actionType == intro)
-        { 
-            pam->handleInput(event);
-        }
-        else
+        if (!isPause)
         {
-            bool isPetTouched = pet->handleInput(event);
-            if ((gameType == tic_tac_toe))
-            {
-                if (isPlayed)
-                {
-                    ticTacToe->handleInput(event);
-                }
+            if (actionType == intro)
+            { 
+                  pam->handleInput(event);
             }
             else
             {
-                if (isPetTouched && !isPlayed)
-                {
-                    touchPet();
-                }
+                  bool isPetTouched = pet->handleInput(event);
+                  if ((gameType == tic_tac_toe))
+                  {
+                        if (isPlayed)
+                        {
+                              ticTacToe->handleInput(event);
+                        }
+                  }
+                  else
+                  {
+                        if (isPetTouched && !isPlayed)
+                        {
+                              touchPet();
+                        }
+                  }
             }
         }
-    }
-    return true;
+     }
+     return true;
 }
 
 //Updates pam and pet
@@ -81,7 +76,6 @@ void YardState::update(float dt)
         }
         else
         {
-
             if ((gameType == tic_tac_toe))
             {
                 if (isPlayed)
@@ -90,15 +84,8 @@ void YardState::update(float dt)
                     {
                         isPlayed = false;
                         //Ends tic tac toe game with the pet playing
-                        if (pet->getActionType() == stand)
-                        {
-                            pet->startPlay();
-                        }
-                        else
-                        {
-                            sounds->stop();
-                        }
-                        pet->stopAction(PLAYING_PET_XP * 3);
+                        pet->startPlay();
+                        stopAction(PLAYING_PET_XP * 3);
                         pet->startPlay();
                         sounds->playGameSound(happyPetSound);
                     }
@@ -109,7 +96,7 @@ void YardState::update(float dt)
                         {
                             if (currentTime >= PET_PLAYS_TIME / 1.6)
                             {
-                                stopAction(); //Stops pet playing action
+                                stopAction(PLAYING_PET_XP); //Stops pet playing action
                             }
                         }
                         else
@@ -126,7 +113,7 @@ void YardState::update(float dt)
             {
                 if (isPlayed && !effects->isEffect())
                 {
-                    stopAction(); //Stops pet playing action
+                    stopAction(PLAYING_PET_XP); //Stops pet playing action
                 }
             }
         GameState::update(dt);
@@ -167,7 +154,7 @@ void YardState::touchPet()
 }
 
 //Stops current action
-void YardState::stopAction()
+void YardState::stopAction(int xp)
 {
     if (gameType != tic_tac_toe)
     {
@@ -177,7 +164,7 @@ void YardState::stopAction()
     {
         clock.restart();
     }
-    pet->stopAction(PLAYING_PET_XP);
+    pet->stopAction(xp);
     sounds->stop();
 }
 
