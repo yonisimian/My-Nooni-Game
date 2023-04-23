@@ -59,7 +59,7 @@ void Accessorizes::draw()
 //Stops the use of accessory
 void Accessorizes::stopUse()
 {
-	if (typeUsed >= refrigerator && typeUsed <= bed)
+	if (typeUsed == refrigerator || typeUsed == bed)
 	{
 		accessorizes.at(typeUsed).setTexture(data->assets.getTexture("Accessorize " + std::to_string(typeUsed)));
 		typeUsed = NO_ACCESSORY;
@@ -71,6 +71,6 @@ void Accessorizes::drawTable()
 {
 	if (visibleTable)
 	{
-		data->window.draw(accessorizes.at(3));
+		data->window.draw(accessorizes.at(table));
 	}
 }
