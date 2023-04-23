@@ -11,7 +11,7 @@ public:
 	//Constructor
 	Need(gameDataRef data, int needType);
 	//Destructor
-	~Need() {}
+	~Need() = default;
 	//Gets the current mood of the need
 	int getMood();
 	//Draws
