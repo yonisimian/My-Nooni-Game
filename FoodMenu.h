@@ -9,7 +9,7 @@ public:
 	//Constructor
 	FoodMenu(gameDataRef data, SoundManage* sounds, int elementsNumber);
 	//Destructor
-	~FoodMenu() { }
+	~FoodMenu() = default;
 	//Gets the xp of chosen food from menu
 	int getFoodXp(int index);
 
