@@ -15,7 +15,7 @@ public:
 	//Constructor
 	YardState(gameDataRef data, SoundManage* sounds, EffectsControl *effects, Pet* pet, int gameType);
 	//Destructor
-	~YardState() { }
+	~YardState() = default;
 	//Init
 	void init();
 	//Handles Input
