@@ -3,8 +3,9 @@
 
 //Constructor get a data, sounds, effects, a pet and a type of game to play with the pet
 YardState::YardState(gameDataRef data, SoundManage* sounds, EffectsControl *effects, Pet* pet, int gameType) :
-      GameState(data, sounds, effects, pet) , gameType(gameType), actionType(stand)
-{ 
+      GameState(data, sounds, effects, pet) , gameType(gameType)
+{
+    actionType = stand;
     if (gameType == tic_tac_toe)
     {
         isPlayed = true;
