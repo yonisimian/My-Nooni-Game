@@ -9,7 +9,7 @@ public:
 	//Constructor
 	ToysMenu(gameDataRef data, SoundManage* sounds, int elementsNumber);
 	//Destructor
-	~ToysMenu() { }
+	~ToysMenu() = default;
 
 private:
 	//Sets the menu's buttons
