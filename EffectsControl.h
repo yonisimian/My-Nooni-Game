@@ -12,7 +12,7 @@ public:
 	//Constructor
 	EffectsControl(gameDataRef data);
 	//Destructor
-	~EffectsControl() {}
+	~EffectsControl() = default;
 	//Draws the effects
 	void draw();
 	//Updates the effect animation
