@@ -31,7 +31,7 @@ private:
 	//Start playing when pet is being touched
 	void touchPet();
 	//Stops current action
-	void stopAction();
+	void stopAction(int xp);
 	//Game over
 	void gameOver();
 
