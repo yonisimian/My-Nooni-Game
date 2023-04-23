@@ -8,10 +8,8 @@ typedef std::unique_ptr <State> StateRef; //Pointer to a State
 class StateMachine
 {
 public:
-	//Constructor
-	StateMachine() { }
 	//Destructor
-	~StateMachine() { }
+	~StateMachine() = default;
 	//Gets a State and a bool value and tells StateMachine to add it
 	void addState(StateRef newState, bool isReplacing = true);
 	//Tells StateMachine to remove top State of states
