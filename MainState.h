@@ -12,7 +12,7 @@ public:
 	//Constructor
 	MainState(gameDataRef data, SoundManage* sounds);
 	//Destructor 
-	~MainState() {}
+	~MainState() = default;
 	//Init
 	void init();
 	//Handles input
