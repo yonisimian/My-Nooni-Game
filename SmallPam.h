@@ -9,7 +9,7 @@ public:
 	//Constructor
 	SmallPam(gameDataRef data, int type);
 	//Destructor
-	~SmallPam() { }
+	~SmallPam() = default;
 
 protected:
 	//Sets the frames of pam's speech
