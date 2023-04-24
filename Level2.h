@@ -26,7 +26,7 @@ protected:
 	//Start action of taking shower
 	void shower();
 	//Start Accessorize's action
-	void useAccessorize(int accessorizeType);
+	void useAccessorize(AccessoryType accessorizeType);
 	//Stops current action
 	void stopAction();
 	//Choose from the menu
