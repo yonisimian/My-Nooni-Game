@@ -68,7 +68,7 @@ bool Level2::handleInput(sf::Event event)
 								if ((mousePosition.x >= TOYBOX_LEFT_X && mousePosition.x <= TOYBOX_RIGHT_X) &&
 									(mousePosition.y >= TOYBOX_LEFT_Y && mousePosition.y <= TOYBOX_RIGHT_Y))
 								{
-									useAccessorize(toyBox);
+									useAccessorize(AccessoryType::TOY_BOX);
 								}
 							}
 						}
@@ -164,20 +164,20 @@ void Level2::shower()
 }
 
 //Start Accessorize's action
-void Level2::useAccessorize(int accessorizeType)
+void Level2::useAccessorize(AccessoryType accessorizeType)
 {
-	switch (accessorizeType)
+	switch (static_cast<int>(accessorizeType))
 	{
-	case refrigerator:
+	case REFRIGERATOR:
 		actionType = openRefrigerator;
 		break;
-	case bed:
+	case BED:
 		goSleep();
 		break;
-	case bath:
+	case BATH:
 		shower();
 		break;
-	case toyBox:
+	case TOY_BOX:
 		actionType = openBox;
 		break;
 	default:
