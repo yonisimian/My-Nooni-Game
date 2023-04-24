@@ -2,15 +2,15 @@
 #include "Definitions.h"
 
 //Constructor gets a data
-Accessorizes::Accessorizes(gameDataRef data) : visibleTable(false), typeUsed(NO_ACCESSORY), data(data)
+Accessorizes::Accessorizes(gameDataRef data) : visibleTable(false), typeUsed(AccessoryType::NO_ACCESSORY), data(data)
 {
-	data->assets.loadTexture("Accessorize 0", REFRIGERATOR);
-	data->assets.loadTexture("Accessorize 1", BED);
-	data->assets.loadTexture("Accessorize 2", BATH);
-	data->assets.loadTexture("Accessorize 3", TABLE);
-	data->assets.loadTexture("Accessorize Used 0", OPENED_REFRIGERATOR);
-	data->assets.loadTexture("Accessorize Used 1", USED_BED);
-	
+	data->assets.loadTexture("Accessorize 0", REFRIGERATOR_FILE);
+	data->assets.loadTexture("Accessorize 1", BED_FILE);
+	data->assets.loadTexture("Accessorize 2", BATH_FILE);
+	data->assets.loadTexture("Accessorize 3", TABLE_FILE);
+	data->assets.loadTexture("Accessorize Used 0", OPENED_REFRIGERATOR_FILE);
+	data->assets.loadTexture("Accessorize Used 1", USED_BED_FILE);
+
 
 	for (int i = 0; i < ACCESSORIES_NUBER; i++)
 	{
@@ -30,39 +30,41 @@ void Accessorizes::setVisibleTable()
 }
 
 //Handles input if one accessory is being touched by the mouse
-int Accessorizes::handleInput(sf::Event event)
+AccessoryType Accessorizes::handleInput(sf::Event event)
 {
-	for (int i = 0; i < ACCESSORIES_NUBER - 1; i++)
+	for (int accessoryIndex = 0; accessoryIndex < ACCESSORIES_NUBER - 1; accessoryIndex++)
 	{
-		if (data->input.isSpriteClicked(accessorizes.at(i), sf::Mouse::Left, data->window))
+		if (data->input.isSpriteClicked(accessorizes.at(accessoryIndex), sf::Mouse::Left, data->window))
 		{
-			if (i <= bed) //If accessory's image is changing to being used
+			AccessoryType accessoryType = static_cast<AccessoryType>(accessoryIndex);
+			if (accessoryType <= AccessoryType::BED) //If accessory's image is changing to being used
 			{
-				typeUsed = i;
-				accessorizes.at(typeUsed).setTexture(data->assets.getTexture("Accessorize Used " + std::to_string(typeUsed)));
+				typeUsed = accessoryType;
+				accessorizes.at(accessoryIndex).setTexture(data->assets.getTexture("Accessorize Used " + std::to_string(accessoryIndex)));
 			}
-			return i;
+			return accessoryType;
 		}
 	}
-	return NO_ACCESSORY;
+	return AccessoryType::NO_ACCESSORY;
 }
 
 //Draws accessorizes
 void Accessorizes::draw()
 {
-	for (int i = 0; i < ACCESSORIES_NUBER - 1; i++)
+	for (int accessoryIndex = 0; accessoryIndex < ACCESSORIES_NUBER - 1; accessoryIndex++)
 	{
-		data->window.draw(accessorizes.at(i));
+		data->window.draw(accessorizes.at(accessoryIndex));
 	}
 }
 
 //Stops the use of accessory
 void Accessorizes::stopUse()
 {
-	if (typeUsed == refrigerator || typeUsed == bed)
+	if (typeUsed == AccessoryType::REFRIGERATOR || typeUsed == AccessoryType::BED)
 	{
-		accessorizes.at(typeUsed).setTexture(data->assets.getTexture("Accessorize " + std::to_string(typeUsed)));
-		typeUsed = NO_ACCESSORY;
+		int accessoryIndex = static_cast<int>(typeUsed);
+		accessorizes.at(accessoryIndex).setTexture(data->assets.getTexture("Accessorize " + std::to_string(accessoryIndex)));
+		typeUsed = AccessoryType::NO_ACCESSORY;
 	}
 }
 
@@ -71,6 +73,6 @@ void Accessorizes::drawTable()
 {
 	if (visibleTable)
 	{
-		data->window.draw(accessorizes.at(table));
+		data->window.draw(accessorizes.at(static_cast<int>(TABLE)));
 	}
 }
