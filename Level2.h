@@ -17,7 +17,7 @@ public:
 	void update(float dt);
 	//Draws
 	void draw(float dt);
-	
+
 protected:
 	//Start action of eating
 	void feed();
@@ -38,6 +38,17 @@ protected:
 
 	std::vector <bool> blockedWords; //Vector of the blocked words the pet doesn't know yet
 
-	const int GROWING_TIME = 300.0f;
-	const int WORDS_NUMBER = 6; //Number of words the pet can learn
+	const int WORDS_NUMBER = 6; //Number of words the pet can learn	
+	
+	const std::vector<std::string_view > BABY_PAM = {
+		"Good news!\nYour Nooni just grew \nInto a baby...",
+		"On the left side of the\nScreen you can see\nHis new needs...",
+		"His needs are :\nBeing petted, eat, sleep, \nTake a bath and play...",
+		"Now you can press on \nThe bed to let him \nSleep...",
+		"You can press on the \nBath to let him take \nA bath...",
+		"You can press on the\nRefrigerator to feed \nHim...",
+		"You can press on the\nToy Box to play with\nHim...",
+		"You can teach him how \nTo speak by pressing\nSpeech button...",
+		"Have fun you two!\nJust don't forget taking\nCare for his needs..."
+	};
 };
