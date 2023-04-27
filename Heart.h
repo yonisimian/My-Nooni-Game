@@ -1,7 +1,8 @@
-﻿#pragma once
+#pragma once
 
 #include "Game.h"
 #include "Animation.h"
+#include "Definitions.h"
 #include <SFML/Graphics.hpp>
 
 //A class for the heart above the pet
@@ -11,20 +12,19 @@ public:
 	//Constructor
 	Heart(gameDataRef data);
 	//Destructor 
-	~Heart();
-	//Sets the position of the heart
-	void setPosition(sf::Vector2f position);
-	//Gets isSpinning and set heart's spinning according
-	void setIsSpinning(bool isSpinning);
-	//Changes the color of the heart
-	void setColor(int color);
+	~Heart() = default;
 	//Updates heart's frames
 	void update();
 	//Draws heart
 	void draw();
+	//Gets isSpinning and set heart's spinning according
+	void setIsSpinning(bool isSpinning);
 	//Restarts clock
 	void restartClock();
-
+	//Sets the position of the heart
+	void setPosition(sf::Vector2f position);
+	//Changes the color of the heart
+	void setColor(MoodType color);
 
 private:
 	Animation *animation;
@@ -33,4 +33,3 @@ private:
 
 	std::string mood; //Mood of the heart
 };
-
