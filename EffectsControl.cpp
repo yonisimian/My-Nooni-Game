@@ -3,7 +3,8 @@
 #include "Definitions.h"
 
 //Constructor gets a data
-EffectsControl::EffectsControl(gameDataRef data) : currentEffect(NO_EFFECT), data(data)
+EffectsControl::EffectsControl(gameDataRef data) : 
+	data(data), currentEffect(EffectType::NO_EFFECT), countAnimation(0)
 {
 	addEffects();
 }
@@ -32,22 +33,22 @@ void EffectsControl::addEffects()
 	effects.push_back(std::make_unique <Animation>(data, BABY_GROWING_ANIMATION, 10, sf::Vector2f(data->window.getSize().x / 2 - 96, 370)));
 
 	//Addings actions
-	effects.at(sleepEffect)->addAction("effect", 0, 22, 0.04, false);
-	effects.at(bathEffect)->addAction("effect", 0, 25, 0.09, false);
+	effects.at(static_cast<int>(EffectType::SLEEP_EFFECT))->addAction("effect", 0, 22, 0.04, false);
+	effects.at(static_cast<int>(EffectType::BATH_EFFECT))->addAction("effect", 0, 25, 0.09, false);
 
-	for (int i = milkEffect; i <= chocolateEffect; i++)
+	for (int i = static_cast<int>(EffectType::MILK_EFFECT); i <= static_cast<int>(EffectType::CHOCOLATE_EFFECT); i++)
 	{
 		effects.at(i)->addAction("effect", 0, 3, 2.0f, false);
 	}
 
-	for (int i = ballEffect; i <= carEffect; i++)
+	for (int i = static_cast<int>(EffectType::BALL_EFFECT); i <= static_cast<int>(EffectType::CAR_EFFECT); i++)
 	{
 		effects.at(i)->addAction("effect", 0, 9, 0.05f, true);
 	}
 
-	effects.at(beingPettedEffect)->addAction("effect", 0, 7, 0.09f, false);
+	effects.at(static_cast<int>(EffectType::PET_EFFECT))->addAction("effect", 0, 7, 0.09f, false);
 
-	for (int i = growingEggEffect; i <= growingBabyEffect; i++)
+	for (int i = static_cast<int>(EffectType::GROW_EGG_EFFECT); i <= static_cast<int>(EffectType::GROW_BABY_EFFECT); i++)
 	{
 		effects.at(i)->addAction("effect", 0, 9, 0.2f, false);
 	}
@@ -56,7 +57,7 @@ void EffectsControl::addEffects()
 //Draws current effect
 void EffectsControl::draw()
 {
-	if (currentEffect > NO_EFFECT)
+	if (currentEffect != EffectType::NO_EFFECT)
 	{
 		effects.at(currentEffect)->draw();
 	}
@@ -65,33 +66,35 @@ void EffectsControl::draw()
 //Updates current effect frames
 void EffectsControl::update()
 {
-	if (currentEffect > NO_EFFECT)
+	if (currentEffect != EffectType::NO_EFFECT)
 	{
-		if(effects.at(currentEffect)->animation() && currentEffect != beingPettedEffect)
+		if(effects.at(currentEffect)->animation() && currentEffect != EffectType::PET_EFFECT)
 		{
 			countAnimation++;
 			if (countAnimation == maxAnimation) //If current effect is animated maxAnimation times - stop effect
 			{
-				currentEffect = NO_EFFECT;
+				currentEffect = EffectType::NO_EFFECT;
+				countAnimation = 0;
 			}
 		}
 	}
 }
 
 //Playes effect
-void EffectsControl::startEffect(int effectNumber)
+void EffectsControl::startEffect(EffectType effectNumber)
 {
-	if (effectNumber >= sleepEffect && effectNumber < effects.size())
+	int effectIndex = static_cast<int>(effectNumber);
+	if (effectNumber >= EffectType::SLEEP_EFFECT && effectIndex < effects.size())
 	{
 		currentEffect = effectNumber;
 		//Changes maxAnimation accordding to type of the effect
-		if (effectNumber == sleepEffect)
+		if (effectNumber == EffectType::SLEEP_EFFECT)
 		{
 			maxAnimation = 5;
 		}
 		else
 		{
-			if (effectNumber == bathEffect)
+			if (effectNumber == EffectType::BATH_EFFECT)
 			{
 				maxAnimation = 2;
 			}
@@ -100,31 +103,31 @@ void EffectsControl::startEffect(int effectNumber)
 				maxAnimation = 1;
 			}
 		}
-		effects.at(currentEffect)->startAction("effect");
-		countAnimation = 0;
+		effects.at(effectIndex)->startAction("effect");
 	}
 }
 
 //Sends if effects is being played
 bool EffectsControl::isEffect()
 {
-	return (currentEffect > NO_EFFECT);
+	return (currentEffect > -1);
 }
 
 //Stops current effect
 void EffectsControl::stopEffect()
 {
-	if (currentEffect > NO_EFFECT)
+	if (currentEffect != EffectType::NO_EFFECT)
 	{
-		currentEffect = NO_EFFECT;
+		currentEffect = EffectType::NO_EFFECT;
 	}
 }
 
 //Restarts clock of current effect
 void EffectsControl::restartClock()
 {
-	if (currentEffect > NO_EFFECT)
+	if (currentEffect != EffectType::NO_EFFECT)
 	{
-		effects.at(currentEffect)->restartClock();
+		int effectIndex = static_cast<int>(currentEffect);
+		effects.at(effectIndex)->restartClock();
 	}
 }
