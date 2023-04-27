@@ -7,11 +7,9 @@ class Level1 : public LevelState
 {
 public:
 	//Constructor
-	Level1(gameDataRef data, SoundManage* sounds, int type);
+	Level1(gameDataRef data, SoundManage* sounds, NooniName type);
 	//Destructor 
 	~Level1();
-	//Handles input
-	bool handleInput(sf::Event event);
 	//Updates the level
 	void update(float dt);
 	//Draws
@@ -21,9 +19,14 @@ protected:
 	//Stops current action
 	void stopAction();
 	//Level up the pet
-	void levelUp();
-
-	const int GROWING_TIME = 60.0f;
+	void levelUp();	
+	
+	const std::vector<std::string_view > EGG_PAM = {
+	"Welcome to your\nNooni's room!",
+	"You can see your Nooni\nEgg on the carpet...",
+	"The heart above him is\nA reflection of your \nNooni's needs...",
+	"On the left side of the\nScreen you can see\nYour Nooni's needs...",
+	"For now his only need\nIs being petted...",
+	"Just press on your\nNooni as long as you \nWant to pet him!..."
+	};
 };
-
-
