@@ -1,4 +1,4 @@
-﻿#include "Level2.h"
+#include "Level2.h"
 #include "Level3.h"
 #include "SpeakState.h"
 #include "YardState.h"
@@ -12,10 +12,11 @@
 Level2::Level2(gameDataRef data, SoundManage* sounds, EffectsControl *effects, Pet *pet) :
 	LevelState(data, sounds, effects, pet)
 {
-	menus[0] = new FoodMenu(data, sounds, 2); //Creates a menu for baby's food
-	menus[1] = new ToysMenu(data, sounds, 3); //Creates a menu for toys
+	endLevel = 300.0;
+	menus[0] = new FoodMenu(data, FoodMenu::MAX_FOOD_ELEMENTS / 3); //Creates a menu for baby's food
+	menus[1] = new ToysMenu(data, ToysMenu::MAX_TOYS_ELEMENTS); //Creates a menu for toys
 
-	pam = new SmallPam(data, babyExplanation);
+	pam = new SmallPam(data, BABY_PAM);
 
 	//Adds locked words the pet doesn't learn yet into blockedWords
 	for (int i = 0; i < WORDS_NUMBER; i++)
@@ -27,54 +28,38 @@ Level2::Level2(gameDataRef data, SoundManage* sounds, EffectsControl *effects, P
 //Handles input
 bool Level2::handleInput(sf::Event event)
 {
-	if (LevelState::handleInput(event))
+	if (!LevelState::handleInput(event) && !isPause)
 	{
-		return true;
-	}
-	if (!isPause)
-	{
-		if (actionType == intro)
+		if (currentAction == ActioType::OPEN_REFRIGERATOR || currentAction == ActioType::OPEN_BOX)
 		{
-			pam->handleInput(event);
+			menuChoice(); //Select from menu
 		}
 		else
 		{
-			if (actionType == openRefrigerator || actionType == openBox)
+			if (currentAction == ActioType::STAND)
 			{
-				menuChoice(); //Select from menu
-			}
-			else
-			{
-				if (actionType == stand)
+				AccessoryType choice{};
+				if ((choice = accessories->handleInput(event)) != AccessoryType::NO_ACCESSORY)
 				{
-					int choice{};
-					if ((choice = accessories->handleInput(event)) != -1)
+					useAccessorize(choice); //Use chosen accessory
+				}
+				else if (data->input.isSpriteClicked(speakButton, sf::Mouse::Left, data->window))
+				{
+					sounds->playGameSound(SoundGameType::MOUSE_CLICKED_SOUND);
+					currentAction = ActioType::OTHER_STATE;
+					data->machine.addState(StateRef(new SpeakState(data, sounds, effects, pet, blockedWords)), false);
+				}
+				else
+				{
+					sf::Vector2i mousePosition = data->input.getMousePosition(data->window);
+					if (data->input.isSpriteClicked(background, sf::Mouse::Left, data->window))
 					{
-						useAccessorize(choice); //Use chosen accessory
-					}
-					else
-					{
-						if (data->input.isSpriteClicked(speakButton, sf::Mouse::Left, data->window))
+						if ((mousePosition.x >= TOYBOX_LEFT_X && mousePosition.x <= TOYBOX_RIGHT_X) &&
+							(mousePosition.y >= TOYBOX_LEFT_Y && mousePosition.y <= TOYBOX_RIGHT_Y))
 						{
-							sounds->playGameSound(mouseClickSound);
-							actionType = GoOtherState;
-							data->machine.addState(StateRef(new SpeakState(data, sounds, effects, pet, blockedWords)), false);
+							useAccessorize(AccessoryType::TOY_BOX);
 						}
-						else
-						{
-							sf::Vector2i mousePosition = data->input.getMousePosition(data->window);
-							if (data->input.isSpriteClicked(background, sf::Mouse::Left, data->window))
-							{	
-								if ((mousePosition.x >= TOYBOX_LEFT_X && mousePosition.x <= TOYBOX_RIGHT_X) &&
-									(mousePosition.y >= TOYBOX_LEFT_Y && mousePosition.y <= TOYBOX_RIGHT_Y))
-								{
-									useAccessorize(AccessoryType::TOY_BOX);
-								}
-							}
-						}
-
 					}
-
 				}
 			}
 		}
@@ -87,25 +72,22 @@ void Level2::update(float dt)
 {
 	if (!isPause)
 	{
-		if (actionType == intro)
+		if (currentAction == ActioType::INTRO)
 		{
 			updatePam(); //Updates pam's speech
 		}
 		else
 		{
-			if (actionType != stand)
+			if (currentAction != ActioType::STAND)
 			{
-				if (!effects->isEffect() && actionType >= eat && actionType <= growing) //If it's a pet's action stop it
+				if (!effects->isEffect() && currentAction >= ActioType::EAT && currentAction <= ActioType::GROW) //If it's a pet's action stop it
 				{
 					stopAction();
 				}
 			}
-			else
+			else if (clock.getElapsedTime().asSeconds() + exactTime >= endLevel)
 			{
-				if (clock.getElapsedTime().asSeconds() + exactTime >= GROWING_TIME)
-				{
-					levelUp(); //Growing pet
-				}
+				levelUp(); //Growing pet
 			}
 			GameState::update(dt);
 		}
@@ -116,15 +98,15 @@ void Level2::update(float dt)
 void Level2::draw(float dt)
 {
 	LevelState::draw(dt);
-	if (actionType == openRefrigerator)
+	if (currentAction == ActioType::OPEN_REFRIGERATOR)
 	{
 		menus[0]->draw();
 	}
-	else if(actionType == openBox)
+	else if(currentAction == ActioType::OPEN_BOX)
 	{
 		menus[1]->draw();
 	}
-	if (actionType == sleep)
+	else if (currentAction == ActioType::SLEEP)
 	{
 		data->window.draw(darkScreen);
 	}
@@ -137,8 +119,8 @@ void Level2::feed()
 {
 	pet->feed();
 	accessories->setVisibleTable(); //Show table to eat on
-	sounds->playActionSound(eatingSound);
-	actionType = eat;
+	sounds->playActionSound(SoundActionType::EAT_SOUND);
+	currentAction = ActioType::EAT;
 }
 
 //Start action of sleeping
@@ -146,9 +128,9 @@ void Level2::goSleep()
 {
 	pet->setPosition(sf::Vector2f(310, 300));
 	pet->goSleep();
-	sounds->playActionSound(sleepingSound);
-	effects->startEffect(sleepEffect);
-	actionType = sleep;
+	sounds->playActionSound(SoundActionType::SLEEP_SOUND);
+	effects->startEffect(EffectType::SLEEP_EFFECT);
+	currentAction = ActioType::SLEEP;
 	xp = 10;
 }
 
@@ -157,28 +139,28 @@ void Level2::shower()
 {
 	pet->setPosition(sf::Vector2f(680, 248));
 	pet->shower();
-	sounds->playActionSound(showerSound);
-	effects->startEffect(bathEffect);
-	actionType = takingBath;
+	sounds->playActionSound(SoundActionType::SHOWER_SOUND);
+	effects->startEffect(EffectType::BATH_EFFECT);
+	currentAction = ActioType::SHOWER;
 	xp = 10;
 }
 
 //Start Accessorize's action
 void Level2::useAccessorize(AccessoryType accessorizeType)
 {
-	switch (static_cast<int>(accessorizeType))
+	switch (accessorizeType)
 	{
-	case REFRIGERATOR:
-		actionType = openRefrigerator;
+	case AccessoryType::REFRIGERATOR:
+		currentAction = ActioType::OPEN_REFRIGERATOR;
 		break;
-	case BED:
+	case AccessoryType::BED:
 		goSleep();
 		break;
-	case BATH:
+	case AccessoryType::BATH:
 		shower();
 		break;
-	case TOY_BOX:
-		actionType = openBox;
+	case AccessoryType::TOY_BOX:
+		currentAction = ActioType::OPEN_BOX;
 		break;
 	default:
 		break;
@@ -190,25 +172,25 @@ void Level2::stopAction()
 {
 	pet->stopAction(xp);
 	sounds->stop();
-	if (actionType == growing)
+	if (currentAction == ActioType::GROW)
 	{
 		data->machine.addState(StateRef(new Level3(data, sounds, effects, pet, blockedWords)), true);
 	}
 	else
 	{
-		if (actionType == sleep || actionType == takingBath)
+		if (currentAction == ActioType::SLEEP || currentAction == ActioType::SHOWER)
 		{
 			pet->setPosition(pet->getMainPosition()); //Returns pet to it's main position
-			if (actionType == sleep)
+			if (currentAction == ActioType::SLEEP)
 			{
 				accessories->stopUse();
 			}
 		}
-		else if (actionType == eat)
+		else if (currentAction == ActioType::EAT)
 		{
 			accessories->setVisibleTable();
 		}
-		actionType = stand;
+		currentAction = ActioType::STAND;
 		xp = 0;
 	}
 }
@@ -216,46 +198,41 @@ void Level2::stopAction()
 //Checks if user selected from menu
 void Level2::menuChoice()
 {
-	int choice{};
-	if (actionType == openRefrigerator)
+	int choice{}, menuIdex;
+	menuIdex = static_cast<int>(currentAction - ActioType::OPEN_REFRIGERATOR);
+	choice = menus[menuIdex]->handleInput();
+	if (choice != Menu::NO_ELEMENT_CHOSEN)
 	{
-		choice = menus[0]->handleInput();
-	}
-	else
-	{
-		choice = menus[1]->handleInput();
-	}
-	if (choice > -1)
-	{
-		if (choice == EXIT_MENU)
+		sounds->playGameSound(SoundGameType::MOUSE_CLICKED_SOUND);
+		if (choice == Menu::EXIT_MENU)
 		{
-			actionType = stand;
+			currentAction = ActioType::STAND;
 		}
 		else
 		{
-			if (actionType == openRefrigerator)
+			if (currentAction == ActioType::OPEN_REFRIGERATOR)
 			{
-				effects->startEffect(choice + milkEffect);
-				xp = ((FoodMenu *)menus[0])->getFoodXp(choice * 2); //Gets xp of chosen food
+				effects->startEffect(static_cast<EffectType>(choice));
+				xp = ((FoodMenu *)menus[0])->getFoodXp(choice); //Gets xp of chosen food
 				feed();
 			}
 			else
 			{
-				actionType = GoOtherState;
-				data->machine.addState(StateRef(new YardState(data, sounds, effects, pet, choice)), false);
+				currentAction = ActioType::OTHER_STATE;
+				data->machine.addState(StateRef(new YardState(data, sounds, effects, pet, static_cast<ToysType>(choice))), false);
 			}
 		}
-		accessories->stopUse();
+	accessories->stopUse();
 	}
 }
 
 //Level up the pet
 void Level2::levelUp()
 {
-	actionType = growing;
-	sounds->playActionSound(growingSound);
+	currentAction = ActioType::GROW;
+	sounds->playActionSound(SoundActionType::GROW_SOUND);
 	pet->grow();
-	effects->startEffect(growingBabyEffect);
+	effects->startEffect(EffectType::GROW_BABY_EFFECT);
 }
 
 //Destructor
