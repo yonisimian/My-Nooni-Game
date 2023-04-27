@@ -18,7 +18,7 @@ public:
 	//Constructor
 	FoodMenu(gameDataRef data, int elementsNumber);
 	//Destructor
-	~FoodMenu() { }
+	~FoodMenu() = default;
 	//Handles input
 	int handleInput();
 	//Gets the xp of chosen food from menu
