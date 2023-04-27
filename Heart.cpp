@@ -2,7 +2,7 @@
 #include "Definitions.h"
 
 //Constructor gets a data
-Heart::Heart(gameDataRef data) : mood("green mood"), data(data)
+Heart::Heart(gameDataRef data) :mood("green mood"), data(data)
 {
 	animation = new Animation(data, HEART, 7);
 	//Creates actions for the heart
@@ -14,10 +14,16 @@ Heart::Heart(gameDataRef data) : mood("green mood"), data(data)
 	animation->startAction("green mood");
 }
 
-//Gets a vector2f and sets the position of the heart according
-void Heart::setPosition(sf::Vector2f position)
+//Updates heart's animation
+void Heart::update()
 {
-	animation->setPosition(position);
+	animation->animation();
+}
+
+//Draws heart
+void Heart::draw()
+{
+	animation->draw();
 }
 
 //Gets isSpinning and set heart's spinning according
@@ -39,14 +45,26 @@ void Heart::setIsSpinning(bool isSpinning)
 	}
 }
 
-//Gets a color type and changes the heart according
-void Heart::setColor(int color)
+//Restart clock
+void Heart::restartClock()
 {
-	if (color == greenMood)
+	animation->restartClock();
+}
+
+//Gets a vector2f and sets the position of the heart according
+void Heart::setPosition(sf::Vector2f position)
+{
+	animation->setPosition(position);
+}
+
+//Gets a color type and changes the heart according
+void Heart::setColor(MoodType color)
+{
+	if (color == MoodType::GREEAN_MOOD)
 	{
 		mood = "green mood";
 	}
-	else if (color == yellowMood)
+	else if (color == MoodType::YELLOW_MOOD)
 	{
 		mood = "yellow mood";
 	}
@@ -58,28 +76,4 @@ void Heart::setColor(int color)
 	{
 		animation->startAction(mood);
 	}
-}
-
-//Updates heart's animation
-void Heart::update()
-{
-	animation->animation();
-}
-
-//Draws heart
-void Heart::draw()
-{
-	animation->draw();
-}
-
-//Restart clock
-void Heart::restartClock()
-{
-	animation->restartClock();
-}
-
-//Destructor 
-Heart::~Heart()
-{
-	delete animation;
 }
