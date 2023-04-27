@@ -7,21 +7,27 @@ class BigPam : public Pam
 {
 public:
 	//Constructor
-	BigPam(gameDataRef data, int type);
+	BigPam(gameDataRef data, const std::vector<std::string_view>(&pamSpeech), bool isTitle, bool isTitleWin);
 	//Destructor
-	~BigPam() = default;
+	~BigPam() { }
 	//Draws the window with pam
 	void draw();
 
+	const static bool TITLE = true;
+	const static bool WINNING_TITLE = true;
+
 protected:
-	//Sets the frames of pam's speech
-	void setFrames(int type);
-	//Add a title if needed
-	void setTitle(int type, double xAddition, double yAddition);
 
-	sf::Sprite pamSprite; 
+	//Init
+	void init();
+
+	sf::Sprite pamSprite;
 	sf::Sprite title;
-	
-	bool isTitle; //If there is a title
-};
 
+	bool isTitle; //If there is a title
+	bool isTitleWin;
+
+	const int DIST_TEXT_BACKGROUND_X = 70;
+	const int DIST_TEXT_BACKGROUND_Y = 150;
+	const int DIST_TITLE_BACKGROUND_Y = 30;
+};
