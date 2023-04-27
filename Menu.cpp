@@ -1,10 +1,9 @@
 #include "Menu.h"
+#include "Definitions.h"
 
 //Constructor gets a data, sounds and a menu type
-Menu::Menu(gameDataRef data, SoundManage* sounds, int elementsNumber) : data(data), sounds(sounds), elementsNumber(elementsNumber)
+Menu::Menu(gameDataRef data) : data(data)
 {
-	elementsNumber = 0;
-
 	data->assets.loadTexture("Menus Background", MENU_WINDOW);
 	background.setTexture(data->assets.getTexture("Menus Background"));
 	background.setPosition(sf::Vector2f(data->window.getSize().x / 2 - background.getGlobalBounds().width / 2, 
@@ -15,14 +14,36 @@ Menu::Menu(gameDataRef data, SoundManage* sounds, int elementsNumber) : data(dat
 		background.getGlobalBounds().height + background.getPosition().y - 50));
 }
 
+//Sets the menu's buttons
+void Menu::setButtons()
+{
+	int x, startX, y;
+	x = startX = background.getPosition().x + BUTTON_DIS_BACKGROUND_X;
+	y = background.getPosition().y + BUTTON_DIS_BACKGROUND_Y;
+
+	for (int SpritesIndex = 0; SpritesIndex < sprites.size(); SpritesIndex++)
+	{
+		sprites.at(SpritesIndex).setPosition(sf::Vector2f(x, y));
+		if (SpritesIndex % 3 == 2)
+		{
+			x = startX;
+			y += MENU_BUTTON_DIS_HEIGHT;
+		}
+		else
+		{
+			x += MENU_BUTTON_DIS_WIDTH;
+		}
+	}
+}
+
 //Draws the menu
 void Menu::draw()
 {
 	data->window.draw(background);
 	data->window.draw(backButton);
-	for (int i = 0; i < elementsNumber; i++)
+	for (int SpritesIndex = 0; SpritesIndex < sprites.size(); SpritesIndex++)
 	{
-		data->window.draw(sprites.at(i));
+		data->window.draw(sprites.at(SpritesIndex));
 	}
 }
 
@@ -31,17 +52,15 @@ int Menu::handleInput()
 {
 	if (data->input.isSpriteClicked(backButton, sf::Mouse::Left, data->window))
 	{
-		sounds->playGameSound(mouseClickSound);
 		return EXIT_MENU;
 	}
 	//Checks if one of the menu objects is being pressed and returns it
-	for (int i = 0; i < elementsNumber; i++)
+	for (int SpritesIndex = 0; SpritesIndex < sprites.size(); SpritesIndex++)
 	{
-		if (data->input.isSpriteClicked(sprites.at(i), sf::Mouse::Left, data->window))
+		if (data->input.isSpriteClicked(sprites.at(SpritesIndex), sf::Mouse::Left, data->window))
 		{
-			sounds->playGameSound(mouseClickSound);
-			return i;
+			return SpritesIndex;
 		}
 	}
-	return -1;
+	return NO_ELEMENT_CHOSEN;
 }
