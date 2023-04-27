@@ -3,17 +3,26 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include "Game.h"
+#include "Definitions.h"
+
+enum NeedType {
+		LOVE,
+		HUNGER,
+		TIRED,
+		CLEAN,
+		BORED
+};
 
 //A class for the pet's need
 class Need
 {
 public:
 	//Constructor
-	Need(gameDataRef data, int needType);
+	Need(gameDataRef data, NeedType needType);
 	//Destructor
-	~Need() = default;
+	~Need() {}
 	//Gets the current mood of the need
-	int getMood();
+	MoodType getMood();
 	//Draws
 	void draw();
 	//Updates the need
@@ -31,9 +40,10 @@ private:
 
 	sf::Clock clock;
 
+	MoodType currentMood;
+	NeedType needType;
+
 	int xp;
-	int mood;
-	int needType;
 	float scaleTime;
 	bool showScale; //Is the scalse should be displayed
 
