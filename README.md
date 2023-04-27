@@ -33,9 +33,6 @@ https://user-images.githubusercontent.com/118209251/234921368-4b8caf82-4681-4fe4
 
 
 
-<br><br>
-
-
 
 
 There is an exit button on every screen so you can go back/exit the game by pressing it.<br>
