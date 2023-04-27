@@ -28,11 +28,7 @@ You can control the game with mouse only.<br><br>
  * play - press on the toybox and select a game<br>
  * speak - press on the speech button above the screen and select a button word so the pet will learn/say it<br><br>
 
-https://user-images.githubusercontent.com/118209251/234907048-d41cfd95-4647-4e30-9dd7-52b9ceed8452.mp4
-
-
-
-https://user-images.githubusercontent.com/118209251/234920530-81732367-c2c6-4c33-82c6-0ae326bdba58.mp4
+https://user-images.githubusercontent.com/118209251/234920530-81732367-c2c6-4c33-82c6-0ae326bdba58.mp4<br><br>
 
 
 
