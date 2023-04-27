@@ -24,7 +24,7 @@ void Menu::setButtons()
 	for (int SpritesIndex = 0; SpritesIndex < sprites.size(); SpritesIndex++)
 	{
 		sprites.at(SpritesIndex).setPosition(sf::Vector2f(x, y));
-		if (SpritesIndex % 3 == 2)
+		if (SpritesIndex % NUMBER_BUTTON_ROW == 2)
 		{
 			x = startX;
 			y += MENU_BUTTON_DIS_HEIGHT;
