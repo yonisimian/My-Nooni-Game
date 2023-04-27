@@ -1,59 +1,43 @@
 #include "FoodMenu.h"
+#include "Definitions.h"
 
 //Constructor gets a data, sounds and a menu type
-FoodMenu::FoodMenu(gameDataRef data, SoundManage* sounds, int elementsNumber) : Menu(data, sounds, elementsNumber)
+FoodMenu::FoodMenu(gameDataRef data, int elementsNumber) : Menu(data)
 {
+	pushSpriteElements(elementsNumber);
 	setButtons();
 }
 
-//Sets the menu's buttons
-void FoodMenu::setButtons()
-{
-	int x, startX, y;
-	x = startX = background.getPosition().x + BUTTON_DIS_BACKGROUND_X;
-	y = background.getPosition().y + BUTTON_DIS_BACKGROUND_Y;
 
-	for (int i = 0; i < elementsNumber; i++)
+//Pushes all elements sprites into sprites vector
+void FoodMenu::pushSpriteElements(int elementsNumber)
+{
+	for (int i = 0; i < elementsNumber && i < MAX_FOOD_ELEMENTS; i++)
 	{
 		data->assets.loadTexture("Food Menu Buttons " + std::to_string(i), FOOD_MENU + std::to_string(i) + ".png");
 		sprites.push_back(sf::Sprite(data->assets.getTexture("Food Menu Buttons " + std::to_string(i))));
-		sprites.at(i).setPosition(sf::Vector2f(x, y));
-		if (i % 3 == 2)
-		{
-			x = startX;
-			y += MENU_BUTTON_DIS_HEIGHT;
-		}
-		else
-		{
-			x += MENU_BUTTON_DIS_WIDTH;
-		}
 	}
+}
+
+//Handles input
+int FoodMenu::handleInput()
+{
+	int MenuChoice = Menu::handleInput();
+	if (MenuChoice != EXIT_MENU && MenuChoice != NO_ELEMENT_CHOSEN)
+	{
+		MenuChoice += static_cast<int>(FoodType::MILK); //If element was chosen - set index to match FoodType
+	}
+	return MenuChoice;
 }
 
 //Gets the xp of chosen food from menu
 int FoodMenu::getFoodXp(int index)
 {
-	int xp{};
-	switch (index)
+	int foodStartIndex = static_cast<int>(FoodType::MILK);
+	int foodLastIndex = static_cast<int>(FoodType::CHOCOLATE);
+	if (index >= foodStartIndex && index <= foodLastIndex)
 	{
-	case Milk:
-		xp = 5;
-		break;
-	case Strawberry:
-		xp = 3;
-		break;
-	case Salad:
-		xp = 7;
-		break;
-	case Burger:
-		xp = 6;
-		break;
-	case Pizza:
-		xp = 4;
-		break;
-	default: case Chocolate:
-		xp = 2;
-		break;
+		return FOOD_XP[index - foodStartIndex];
 	}
-	return xp;
+	return FOOD_XP[foodStartIndex];
 }
