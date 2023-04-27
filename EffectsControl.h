@@ -46,7 +46,7 @@ public:
 private:
 	//Adds effects into effects
 	void addEffects();
-	int countAnimation = 0; //Counter of how many time effect is being animated
+	int countAnimation; //Counter of how many time effect is being animated
 	int maxAnimation; //Max time of effect to being animated
 	EffectType currentEffect;
 
