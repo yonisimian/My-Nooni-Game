@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Menu.h"
+#include <array>
 
 enum FoodType {
 	MILK = 2,
@@ -29,4 +30,6 @@ public:
 protected:
 	//Pushes all elements sprites into sprites vector
 	void pushSpriteElements(int elementsNumber);
+
+	const std::array<int, 6> FOOD_XP { 5, 3, 7, 6, 4, 2 };
 };
