@@ -3,10 +3,8 @@
 
 //Constructor gets a data, sounds, effects and a pet
 LevelState::LevelState(gameDataRef data, SoundManage* sounds, EffectsControl *effects, Pet *pet) : 
-	GameState(data, sounds, effects, pet)
+	GameState(data, sounds, effects, pet), xp(0)
 {
-	xp = 0;
-	moodNumber = greenMood;
 	accessories = new Accessorizes(data);
 }
 
@@ -27,21 +25,28 @@ void LevelState::init()
 //Handles input if pet is being petted or not
 bool LevelState::handleInput(sf::Event event)
 {
-	if (GameState::handleInput(event))
+	if (!GameState::handleInput(event))
 	{
-		return true;
-	}
-	if (!isPause && pet->handleInput(event) && actionType == stand)
-	{
-		touchPet();
-		return true;
-	}
-	else
-	{
-		if (actionType == beingPet && (event.type == sf::Event::MouseButtonReleased))
+		if (!isPause)
 		{
-			stopAction();
-			return true;
+			if (currentAction == ActioType::INTRO)
+			{
+				pam->handleInput(event);
+				return true;
+			}
+			else if (pet->handleInput(event) && currentAction == ActioType::STAND)
+			{
+				touchPet();
+				return true;
+			}
+			else
+			{
+				if (currentAction == ActioType::PETTED && (event.type == sf::Event::MouseButtonReleased))
+				{
+					stopAction();
+					return true;
+				}
+			}
 		}
 	}
 	return false;
@@ -62,20 +67,20 @@ void LevelState::draw(float dt)
 void LevelState::touchPet()
 {
 	pet->beingPetted();
-	sounds->playActionSound(pettingSound);
-	actionType = beingPet;
-	effects->startEffect(beingPettedEffect);
+	sounds->playActionSound(SoundActionType::PET_SOUND);
+	currentAction = ActioType::PETTED;
+	effects->startEffect(EffectType::PET_EFFECT);
 	startPetTime = clock.getElapsedTime().asSeconds();		
 }
 
 //Stops current action
 void LevelState::stopAction()
 {
-	if (actionType == beingPet)
+	if (currentAction == ActioType::PETTED)
 	{
 		pet->stopAction((clock.getElapsedTime().asSeconds() + exactTime - startPetTime) * 2);
 		effects->stopEffect();
-		actionType = stand;
+		currentAction = ActioType::STAND;
 	}
 	sounds->stop();
 }
