@@ -6,17 +6,25 @@
 #include "Need.h"
 #include "Heart.h"
 #include "Animation.h"
+#include "Definitions.h"
+
+enum NooniName {
+	ANGEL,
+	COCO,
+	FIFI,
+	BOO
+};
 
 //A class for pet
 class Pet
 {
 public:
 	//Constructor
-	Pet(gameDataRef data, int type);
+	Pet(gameDataRef data, NooniName petType);
 	//Destructor
 	~Pet();
 	//Gets pet's type
-	int getType();
+	NooniName getType();
 	//Gets current action type
 	int getActionType();
 	//Gets the main position of the pet
@@ -48,7 +56,7 @@ public:
 	//Sets pet's position
 	void setPosition(sf::Vector2f postion);
 	//Updates current pet's mood and returns it
-	int mood();
+	MoodType getMood();
 
 private:
 	//Sets the pet's animation by different actions
@@ -62,10 +70,9 @@ private:
 
 	sf::Vector2f mainPosition;
 
-	int type;
-	int actionType; //Current pet's action type
+	NooniName petType;
+	ActioType currentAction; //Current pet's action type
 	std::string age;
 	int needsNumber;
-	int moodNumber;
+	MoodType currentMood;
 };
-
