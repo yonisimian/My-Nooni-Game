@@ -37,5 +37,6 @@ protected:
 	Accessorizes* accessories;
 
 	int xp;
+	float endLevel;
 	float startPetTime; //Petting action was started
 };
