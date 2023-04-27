@@ -20,6 +20,10 @@
 
 
 
+https://user-images.githubusercontent.com/118209251/234907048-d41cfd95-4647-4e30-9dd7-52b9ceed8452.mp4
+
+
+
 <h2>How To Play</h2>
 You can control the game with mouse only.<br><br>
  * eat - press on the refrigerator and select food from the menu<br>
