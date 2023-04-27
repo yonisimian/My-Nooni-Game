@@ -3,14 +3,12 @@
 #include <iostream>
 
 //Constructor getss a data
-SoundManage::SoundManage(gameDataRef data) : data(data)
+SoundManage::SoundManage(gameDataRef data) : 
+	data(data), isSound(true), actionSoundPlaying(NO_SOUND), speakSoundPlaying(NO_SOUND)
 {
-	isSound = true;
-	actionSoundPlaying = speakSoundPlaying = -1;
-
 	loadSounds();
 	//Sets background sound
-	backgroundSound.setBuffer(backgroundBuffer.at(mainSound));
+	backgroundSound.setBuffer(backgroundBuffer.at(SoundBackgroundType::MAIN_GAME_SOUND));
 	backgroundSound.play();
 	//Sets volume for each sound
 	backgroundSound.setVolume(BACKGROUND_VOLUME);
@@ -26,14 +24,11 @@ void SoundManage::loadSounds()
 {
 	for (int i = 0; i < 2; i++)
 	{
-		data->assets.loadSoundBuffer("Background Sound " + std::to_string(i), BACKGROUND_SOUND + std::to_string(i) + ".mp3");
-		backgroundBuffer.push_back(data->assets.getSoundBuffer("Background Sound " + std::to_string(i)));
-	}
-
-	for (int i = 0; i < 2; i++)
-	{
 		data->assets.loadSoundBuffer("Game Sound " + std::to_string(i), GAME_SOUND + std::to_string(i) + ".wav");
 		gameSoundBuffer.push_back(data->assets.getSoundBuffer("Game Sound " + std::to_string(i)));
+
+		data->assets.loadSoundBuffer("Background Sound " + std::to_string(i), BACKGROUND_SOUND + std::to_string(i) + ".mp3");
+		backgroundBuffer.push_back(data->assets.getSoundBuffer("Background Sound " + std::to_string(i)));
 	}
 
 	for (int i = 0; i < 6; i++)
@@ -41,17 +36,13 @@ void SoundManage::loadSounds()
 		data->assets.loadSoundBuffer("Action Sound " + std::to_string(i), ACTION_SOUND + std::to_string(i) + ".wav");
 		actionsSoundBuffer.push_back(data->assets.getSoundBuffer("Action Sound " + std::to_string(i)));
 	}
-
-	for (int i = 0; i < 12; i++)
-	{
-		data->assets.loadSoundBuffer("Speak Sound " + std::to_string(i), SPEAK_SOUNDS + std::to_string(i) + ".mp3");
-		speakBuffer.push_back(data->assets.getSoundBuffer("Speak Sound " + std::to_string(i)));
-	}
-
 	for (int i = 0; i < 12; i++)
 	{
 		data->assets.loadSoundBuffer("Learn Sound " + std::to_string(i), LEARN_SOUND + std::to_string(i) + ".mp3");
 		learnBuffer.push_back(data->assets.getSoundBuffer("Learn Sound " + std::to_string(i)));
+
+		data->assets.loadSoundBuffer("Speak Sound " + std::to_string(i), SPEAK_SOUNDS + std::to_string(i) + ".mp3");
+		speakBuffer.push_back(data->assets.getSoundBuffer("Speak Sound " + std::to_string(i)));
 	}
 }
 
@@ -80,34 +71,37 @@ void SoundManage::setSound()
 }
 
 //Gets a sound number and switches the background sound 
-void SoundManage::switchBackground(int sound)
+void SoundManage::switchBackground(SoundBackgroundType sound)
 {
-	if (sound < backgroundBuffer.size())
+	int soundIndex = static_cast<int>(sound);
+	if (soundIndex < backgroundBuffer.size())
 	{
-		backgroundSound.setBuffer(backgroundBuffer.at(sound));
+		backgroundSound.setBuffer(backgroundBuffer.at(soundIndex));
 		backgroundSound.play();
 	}
 }
 
 //Gets a game sound number and plays it 
-void SoundManage::playGameSound(int sound)
+void SoundManage::playGameSound(SoundGameType sound)
 {
-	if (sound < gameSoundBuffer.size())
+	int soundIndex = static_cast<int>(sound);
+	if (soundIndex < gameSoundBuffer.size())
 	{
-		gameSound.setBuffer(gameSoundBuffer.at(sound));
+		gameSound.setBuffer(gameSoundBuffer.at(soundIndex));
 		gameSound.play();
 	}
 }
 
 //Gets an action sound number and plays it 
-void SoundManage::playActionSound(int sound)
+void SoundManage::playActionSound(SoundActionType sound)
 {
-	if (sound < actionsSoundBuffer.size())
+	int soundIndex = static_cast<int>(sound);
+	if (soundIndex < actionsSoundBuffer.size())
 	{
-		actionSound.setBuffer(actionsSoundBuffer.at(sound));
+		actionSound.setBuffer(actionsSoundBuffer.at(soundIndex));
 		actionSound.play();
-		actionSoundPlaying = sound;
-		if (actionSoundPlaying == playingSound)
+		actionSoundPlaying = soundIndex;
+		if (sound == SoundActionType::PLAY_SOUND)
 		{
 			actionSound.setPitch(1.5);
 		}
@@ -124,7 +118,7 @@ float SoundManage::speak(int word)
 		speakSoundPlaying = word;
 		return speakBuffer.at(word).getDuration().asMicroseconds() - 800000;
 	}
-	return -1;
+	return NO_SOUND;
 }
 
 //Gets a word number to learn, plays it and returns it's time
@@ -137,37 +131,37 @@ float SoundManage::learn(int word)
 		speakSoundPlaying = word;
 		return learnBuffer.at(word).getDuration().asMicroseconds() - 1000000;
 	}
-	return -1;
+	return NO_SOUND;
 }
 
 //Stops action and speaking sounds
 void SoundManage::stop()
 {
-	if (actionSoundPlaying > -1)
+	if (actionSoundPlaying > NO_SOUND)
 	{
 		if (actionSound.getStatus() == sf::Sound::Paused)
 		{
 			actionSound.play();
 		}
 		actionSound.stop();
-		if (actionSoundPlaying == playingSound)
+		if (actionSoundPlaying == static_cast<int>(SoundActionType::PLAY_SOUND))
 		{
 			actionSound.setPitch(1);
 		}
 		else
 		{
-			playGameSound(happyPetSound);
+			playGameSound(SoundGameType::HAPPY_PET_SOUND);
 		}
-		actionSoundPlaying = -1;
+		actionSoundPlaying = NO_SOUND;
 	}
-	if (speakSoundPlaying > -1)
+	if (speakSoundPlaying > NO_SOUND)
 	{
 		if (speakSound.getStatus() == sf::Sound::Paused)
 		{
 			speakSound.play();
 		}
 		speakSound.stop();
-		speakSoundPlaying = -1;
+		speakSoundPlaying = NO_SOUND;
 	}
 }
 
@@ -175,11 +169,11 @@ void SoundManage::stop()
 void SoundManage::pause()
 {
 	backgroundSound.pause();
-	if (actionSoundPlaying > -1)
+	if (actionSoundPlaying > NO_SOUND)
 	{
 		actionSound.pause();
 	}
-	if (speakSoundPlaying > -1)
+	if (speakSoundPlaying > NO_SOUND)
 	{
 		speakSound.pause();
 	}
@@ -192,11 +186,11 @@ void SoundManage::resume()
 	{
 		backgroundSound.play();
 	}
-	if (actionSoundPlaying > -1)
+	if (actionSoundPlaying > NO_SOUND)
 	{
 		actionSound.play();
 	}
-	if (speakSoundPlaying > -1)
+	if (speakSoundPlaying > NO_SOUND)
 	{
 		speakSound.play();
 	}
