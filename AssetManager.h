@@ -8,10 +8,6 @@
 class AssetManager
 {
 public:
-	//Constructor
-	AssetManager() {}
-	//Destructor
-	~AssetManager() = default;
 	//Gets two strings, name for texture and the file name and loads the file into textures
 	void loadTexture(std::string, std::string);
 	//Gets a name and returns a texture by the name from textures
@@ -25,4 +21,3 @@ private:
 	std::map <std::string, sf::Texture> textures; //Holds loaded textures
 	std::map <std::string, sf::SoundBuffer> soundBuffers; //Holds loaded soundBuffers
 };
-
