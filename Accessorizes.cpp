@@ -37,7 +37,7 @@ AccessoryType Accessorizes::handleInput(sf::Event event)
 		if (data->input.isSpriteClicked(accessorizes.at(accessoryIndex), sf::Mouse::Left, data->window))
 		{
 			AccessoryType accessoryType = static_cast<AccessoryType>(accessoryIndex);
-			if (accessoryType <= AccessoryType::BED) //If accessory's image is changing to being used
+			if (accessoryType == AccessoryType::BED || accessoryType == AccessoryType::REFRIGERATOR) //If accessory's image is changing to being used
 			{
 				typeUsed = accessoryType;
 				accessorizes.at(accessoryIndex).setTexture(data->assets.getTexture("Accessorize Used " + std::to_string(accessoryIndex)));
