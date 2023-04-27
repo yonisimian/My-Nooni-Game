@@ -5,6 +5,25 @@
 #include <vector>
 #include "Game.h"
 
+enum SoundGameType {
+	MOUSE_CLICKED_SOUND,
+	HAPPY_PET_SOUND
+};
+
+enum SoundActionType {
+	PET_SOUND,
+	SHOWER_SOUND,
+	EAT_SOUND,
+	GROW_SOUND,
+	SLEEP_SOUND,
+	PLAY_SOUND
+};
+
+enum SoundBackgroundType {
+	MAIN_GAME_SOUND,
+	SPEAK_STATE_SOUND
+};
+
 //A class for all game's sounds
 class SoundManage
 {
@@ -12,17 +31,17 @@ public:
 	//Constructor
 	SoundManage(gameDataRef data);
 	//Destructor
-	~SoundManage() = default;
+	~SoundManage() {}
 	//Gets if sound is on or not
 	bool getIsSound();
 	//Sets sounds volume - off or on
 	void setSound();
 	//Gets a sound number and switches the background sound 
-	void switchBackground(int sound);
+	void switchBackground(SoundBackgroundType sound);
 	//Gets a game sound number and plays it 
-	void playGameSound(int sound);
+	void playGameSound(SoundGameType sound);
 	//Gets an action sound number and plays it 
-	void playActionSound(int sound);
+	void playActionSound(SoundActionType sound);
 	//Gets a word number, plays it and returns it's time
 	float speak(int word);
 	//Gets a word number to learn, plays it and returns it's time
@@ -58,6 +77,5 @@ private:
 	const int BACKGROUND_VOLUME = 30;
 	const int GAME_VOLUME = 50;
 	const int ACTION_VOLUME = 100;
+	const int NO_SOUND = -1;
 };
-
-
