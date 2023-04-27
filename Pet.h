@@ -1,7 +1,7 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-#include <vector>
+#include <array>
 #include "Game.h"
 #include "Need.h"
 #include "Heart.h"
@@ -65,7 +65,7 @@ private:
 	gameDataRef data;
 
 	Animation *animation;
-	std::vector <Need*> needs; //Pet's needs
+	std::array <Need*, 5> needs; //Pet's needs
 	Heart *heart; 
 
 	sf::Vector2f mainPosition;
