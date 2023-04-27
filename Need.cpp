@@ -2,36 +2,33 @@
 #include "Definitions.h"
 
 //Constructor gets a data and a need type (being petted, hungry, sleep, clean and fun)
-Need::Need(gameDataRef data, int needType) : data(data), needType(needType)
+Need::Need(gameDataRef data, NeedType needType) :
+	data(data), needType(needType), xp(MoodType::GREEAN_MOOD), currentMood(MoodType::GREEAN_MOOD), showScale(false)
 {
 	//Sets the position of the need's icon
 	int firstY = 230;
 	int xIcon = 5, yIcon = NEED_ICON_SIZE * (needType + 1) + firstY;
 	std::string typeName; //Name of need's type
 
-	xp = 10;
-	mood = greenMood;
-	showScale = false;
-
 	switch (needType)
 	{
-	case beingPet:
+	case NeedType::LOVE:
 		typeName = "pet";
 		scaleTime = 4.5f;
 		break;
-	case eat:
+	case NeedType::HUNGER:
 		typeName = "hungry";
 		scaleTime = 4.0f;
 		break;
-	case sleep:
+	case NeedType::TIRED:
 		typeName = "sleep";
 		scaleTime = 6.0f;
 		break;
-	case takingBath:
+	case NeedType::CLEAN:
 		typeName = "clean";
 		scaleTime = 5.0f;
 		break;
-	default : case play:
+	default : case NeedType::BORED:
 		typeName = "fun";
 		scaleTime = 3.5f;
 		break;
@@ -58,9 +55,9 @@ Need::Need(gameDataRef data, int needType) : data(data), needType(needType)
 }
 
 //Gets the current mood of the need
-int Need::getMood()
+MoodType Need::getMood()
 {
-	return mood;
+	return currentMood;
 }
 
 //draws need's sprites
@@ -77,10 +74,10 @@ void Need::draw()
 //Updates need by time
 void Need::update(float dt)
 {
-	if (xp > 0)
+	if (xp > static_cast<int>(MoodType::BLACK_MOOD))
 	{
 		float time = scaleTime;
-		if (xp <= redMood) //If xp smaller than redMood - time is going faster
+		if (xp <= static_cast<int>(MoodType::RED_MOOD)) //If xp smaller than redMood - time is going faster
 		{
 			time /= 2.0f;
 		}
@@ -95,38 +92,38 @@ void Need::update(float dt)
 //Updates the scale and ShapeIcon's color according to the new xp
 void Need::updateScale(int oldXp)
 {
-	int placeXp= greenMood - xp;
+	int placeXp= static_cast<int>(MoodType::GREEAN_MOOD) - xp;
 	spriteScale.setTexture(data->assets.getTexture("Need Scale " + std::to_string(placeXp))); //Sets the new frame of the scale
 	if (!xp)
 	{
-		if (oldXp > 0)
+		if (oldXp > static_cast<int>(MoodType::BLACK_MOOD))
 		{
 			ShapeIcon.setFillColor(sf::Color::Black);
-			mood = blackMood;
+			currentMood = MoodType::BLACK_MOOD;
 		}
 	}
 	else
 	{
-		if (xp <= redMood)
+		if (xp <= static_cast<int>(MoodType::RED_MOOD))
 		{
-			if (oldXp > redMood || !oldXp)
+			if (oldXp > static_cast<int>(MoodType::RED_MOOD) || !oldXp)
 			{
 				ShapeIcon.setFillColor(sf::Color::Red);
-				mood = redMood;
+				currentMood = MoodType::RED_MOOD;
 			}
 		}
-		else if (xp <= yellowMood)
+		else if (xp <= static_cast<int>(MoodType::YELLOW_MOOD))
 		{
-			if (oldXp > yellowMood || oldXp <= redMood)
+			if (oldXp > static_cast<int>(MoodType::YELLOW_MOOD) || oldXp <= static_cast<int>(MoodType::RED_MOOD))
 			{
 				ShapeIcon.setFillColor(sf::Color::Yellow);
-				mood = yellowMood;
+				currentMood = MoodType::YELLOW_MOOD;
 			}
 		}
-		else if (oldXp <= yellowMood)
+		else if (oldXp <= static_cast<int>(MoodType::YELLOW_MOOD))
 		{
 			ShapeIcon.setFillColor(sf::Color::Green);
-			mood = greenMood;
+			currentMood = MoodType::GREEAN_MOOD;
 		}
 	}
 }
@@ -150,9 +147,9 @@ void Need::handleInput()
 void Need::levelUp(int amount)
 {
 	int oldXp = xp;
-	if (xp + amount >= 10)
+	if (xp + amount >= static_cast<int>(MoodType::GREEAN_MOOD))
 	{
-		xp = 10;
+		xp = static_cast<int>(MoodType::GREEAN_MOOD);
 	}
 	else
 	{

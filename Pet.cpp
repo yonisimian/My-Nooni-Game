@@ -1,40 +1,36 @@
-﻿#include "Pet.h"
+#include "Pet.h"
 #include <iostream>
 
 //Constructor gets a data, sounds and animal type and creates the pet according
-Pet::Pet(gameDataRef data, int type) : data(data), type(type)
+Pet::Pet(gameDataRef data, NooniName petType) :
+	data(data), petType(petType), currentAction(ActioType::STAND), age("egg"), currentMood(MoodType::GREEAN_MOOD), needsNumber(1)
 {
-	actionType = stand;
-	age = "egg";
-	moodNumber = greenMood;
-	needsNumber = 1;
-
-	std::string animalFile{}; //String of the folder name of the chosen pet
-	switch (type)
+	std::string animalFolder{}; //String of the folder name of the chosen pet
+	switch (petType)
 	{
-	case Angel:
-		animalFile = ANGEL;
+	case NooniName::ANGEL:
+		animalFolder = ANGEL_FOLDER;
 		break;
-	case Coco:
-		animalFile = COCO;
+	case NooniName::COCO:
+		animalFolder = COCO_FOLDER;
 		break;
-	case Fifi:
-		animalFile = FIFI;
+	case NooniName::FIFI:
+		animalFolder = FIFI_FOLDER;
 		break;
-	default: case Boo:
-		animalFile = BOO;
+	default: case NooniName::BOO:
+		animalFolder = BOO_FOLDER;
 		break;
 	}
 
-	animation = new Animation(data, animalFile, 29); //Sets animation
+	animation = new Animation(data, animalFolder, 29); //Sets animation
 	setAnimation();
 
 	heart = new Heart(data);
 
 	//Sets pet's needs
-	for (int i = 0; i < MAX_NEEDS; i++)
+	for (NeedType needIndex = NeedType::LOVE; needIndex <= NeedType::BORED; ++(int&)needIndex)
 	{
-		needs.push_back(new Need(data, i));
+		needs[needIndex] = (new Need(data, needIndex));
 	}
 	
 }
@@ -69,15 +65,15 @@ void Pet::setAnimation()
 }
 
 //Gets pet's type
-int Pet::getType()
+NooniName Pet::getType()
 {
-	return type;
+	return petType;
 }
 
 //Gets current action
 int Pet::getActionType()
 {
-	return actionType;
+	return currentAction;
 }
 
 //Gets the main position of the pet
@@ -89,13 +85,13 @@ sf::Vector2f Pet::getMainPosition()
 //Updates animation, needs and heart
 void Pet::update(float dt)
 {
-	if (actionType != growing)
+	if (currentAction != ActioType::GROW)
 	{
-		for (int i = 0; i < needsNumber; i++)
+		for (int needIndex = 0; needIndex < needsNumber; needIndex++)
 		{
-			if (actionType != i)
+			if (static_cast<int>(currentAction - ActioType::PETTED) != needIndex)
 			{
-				needs.at(i)->update(dt);
+				needs.at(needIndex)->update(dt);
 			}
 		}
 		animation->animation();
@@ -106,23 +102,23 @@ void Pet::update(float dt)
 //Draws
 void Pet::draw()
 {
-	if (actionType != sleep)
+	if (currentAction != ActioType::SLEEP)
 	{
 		animation->draw();
 	}
 	heart->draw();
-	for (int i = 0; i < needsNumber; i++)
+	for (int needIndex = 0; needIndex < needsNumber; needIndex++)
 	{
-		needs.at(i)->draw();
+		needs.at(needIndex)->draw();
 	}
 }
 
 //Handles input, return true if pet is being touched, else false
 bool Pet::handleInput(sf::Event event)
 {
-	for (int i = 0; i < needsNumber; i++)
+	for (int needIndex = 0; needIndex < needsNumber; needIndex++)
 	{
-		needs.at(i)->handleInput();
+		needs.at(needIndex)->handleInput();
 	}
 	return animation->handleInput(event);
 }
@@ -130,7 +126,7 @@ bool Pet::handleInput(sf::Event event)
 //Start action of being petted
 void Pet::beingPetted()
 {
-	actionType = beingPet;
+	currentAction = ActioType::PETTED;
 	heart->setIsSpinning(true);
 	if (age != "egg")
 	{
@@ -144,7 +140,7 @@ void Pet::feed()
 	if (age != "egg")
 	{
 		animation->startAction(age + "_eat");
-		actionType = eat;
+		currentAction = ActioType::EAT;
 		heart->setIsSpinning(true);
 	}
 }
@@ -154,7 +150,7 @@ void Pet::goSleep()
 {
 	if (age != "egg")
 	{
-		actionType = sleep;
+		currentAction = ActioType::SLEEP;
 		heart->setIsSpinning(true);
 	}
 }
@@ -165,7 +161,7 @@ void Pet::shower()
 	if (age != "egg")
 	{
 		animation->startAction(age + "_shower");
-		actionType = takingBath;
+		currentAction = ActioType::SHOWER;
 		heart->setIsSpinning(true);
 	}
 }
@@ -176,7 +172,7 @@ void Pet::startPlay()
 	if (age != "egg")
 	{
 		animation->startAction(age + "_play");
-		actionType = play;
+		currentAction = ActioType::PLAY;
 		heart->setIsSpinning(true);
 	}
 }
@@ -187,7 +183,7 @@ void Pet::grow()
 	if (age != "adult")
 	{
 		animation->setColor(sf::Color::Black);
-		actionType = growing;
+		currentAction = ActioType::GROW;
 		heart->setIsSpinning(true);
 		if (age == "egg")
 		{
@@ -207,7 +203,7 @@ void Pet::startTalk()
 	if (age != "egg")
 	{
 		animation->startAction(age + "_talk");
-		actionType = talk;
+		currentAction = ActioType::TALK;
 		heart->setIsSpinning(true);
 	}
 }
@@ -215,30 +211,30 @@ void Pet::startTalk()
 //Gets xp, increases the used need and stops current action
 void Pet::stopAction(int xp)
 {
-	if (actionType != stand)
+	if (currentAction != ActioType::STAND)
 	{
-		if (age != "egg")
+		if (age != "egg" && currentAction != ActioType::SLEEP)
 		{
-			if (actionType != sleep)
+			animation->startAction(age); //Sets action to standing action
+		}
+		if (currentAction >= ActioType::PETTED && currentAction <= ActioType::GROW)
+		{
+			if (currentAction < ActioType::GROW)
 			{
-				animation->startAction(age); //Sets action to standing action
-				if (actionType == growing)
-				{
-					animation->setColor(sf::Color::White);
-					mainPosition = sf::Vector2f(data->window.getSize().x / 2 - animation->getSpriteWidth() / 2,
-						EGG_Y_POSTION - (animation->getSpriteHeigth() - EGG_HEIGHT)); //Changes the main position according to new size
-					setPosition(mainPosition);
-					restartClock();
-				}
+				int needIndex = static_cast<int>(currentAction);
+				needs.at(needIndex)->levelUp(xp); //Increases xp
+			}
+			else if (currentAction == ActioType::GROW)
+			{
+				animation->setColor(sf::Color::White);
+				mainPosition = sf::Vector2f(data->window.getSize().x / 2 - animation->getSpriteWidth() / 2,
+				EGG_Y_POSTION - (animation->getSpriteHeigth() - EGG_HEIGHT)); //Changes the main position according to new size
+				setPosition(mainPosition);
 			}
 		}
-		if (actionType >= beingPet && actionType <= play)
-		{
-			needs.at(actionType)->levelUp(xp); //Increases xp
-			needs.at(actionType)->restartClock();
-		}
 		heart->setIsSpinning(false);
-		actionType = stand;
+		currentAction = ActioType::STAND;
+		restartClock();
 	}
 }
 
@@ -246,9 +242,9 @@ void Pet::stopAction(int xp)
 void Pet::restartClock()
 {
 	animation->restartClock();
-	for (int i = 0; i < needsNumber; i++)
+	for (int needIndex = 0; needIndex < needsNumber; needIndex++)
 	{
-		needs.at(i)->restartClock();
+		needs.at(needIndex)->restartClock();
 	}
 	heart->restartClock();
 }
@@ -257,46 +253,47 @@ void Pet::restartClock()
 void Pet::setPosition(sf::Vector2f postion)
 {
 	animation->setPosition(postion);
-	heart->setPosition(sf::Vector2f(animation->getSpriteWidth() / 2 + postion.x - HEART_WIDTH / 2, postion.y - (HEART_DIST_PET + HEART_WIDTH)));
+	heart->setPosition(sf::Vector2f(animation->getSpriteWidth() / 2 + postion.x - HEART_WIDTH / 2, 
+		postion.y - (HEART_DIST_PET + HEART_WIDTH)));
 }
 
 //Updates current pet's mood and returns it
-int Pet::mood()
+MoodType Pet::getMood()
 {
-	int lowest = greenMood, countBlackMood = 0, xp{};
-	for (int i = 0; i < needsNumber ; i++)
+	MoodType lowest = MoodType::GREEAN_MOOD, needMood;
+	int countBlackMood = 0;
+	for (int needIndex = 0; needIndex < needsNumber ; needIndex++)
 	{
-		if ((xp = needs.at(i)->getMood()) <= lowest)
+		if ((needMood = needs.at(needIndex)->getMood()) <= lowest)
 		{
-			if (!xp)
+			if (needMood == MoodType::BLACK_MOOD)
 			{
 				countBlackMood++;
 			}
-			if (xp != lowest)
+			if (needMood != lowest)
 			{
-				lowest = xp;
+				lowest = needMood;
 			}
 		}
 	}
 	if (countBlackMood == needsNumber)
 	{
-		moodNumber = -1;
+		currentMood = MoodType::DEAD_MOOD;
 	}
-	else
+	else if (lowest != currentMood)
 	{
-		if (lowest != moodNumber)
-		{
-			moodNumber = lowest;
-		}
+		currentMood = lowest;
 	}
-	heart->setColor(moodNumber);
-	return moodNumber;
+	heart->setColor(currentMood);
+	return currentMood;
 }
 
 //Destructor
 Pet::~Pet()
 { 
 	delete heart; 
-	delete animation;
-	needs.clear(); 
+	for (int i = 0; i < needs.size(); i++)
+	{
+		delete needs[i];
+	}
 }

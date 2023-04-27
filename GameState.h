@@ -6,8 +6,10 @@
 #include "Pet.h"
 #include "SoundManage.h"
 #include "EffectsControl.h"
+#include "Definitions.h"
 #include "Pam.h"
 #include <vector>
+
 
 //A child class of State - a state for the game
 class GameState : public State
@@ -58,10 +60,13 @@ protected:
 	gameDataRef data;
 	SoundManage* sounds;
 
-	bool isPause;
-	int moodNumber; //Pet's mood
-	int actionType = intro;
+	MoodType currentMood; //Pet's mood
+	ActioType currentAction;
 	
-	double exactTime; //
+	double exactTime;
+	bool isPause;
+	
+	const std::vector<std::string_view > LOOSE_PAM = {
+		"Hello again, neighbor!\nI heard my Nooni is very \nSick so I hurried back\nSo I can take care for him.\nWe can try next time..."
+	};
 };
-

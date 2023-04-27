@@ -5,10 +5,8 @@
 
 //Constructor gets a data, sounds, effects and a pet
 GameState::GameState(gameDataRef data, SoundManage* sounds, EffectsControl* effects, Pet* pet) :
-	data(data), sounds(sounds), pet(pet), effects(effects) 
+	data(data), sounds(sounds), pet(pet), effects(effects), currentAction(ActioType::INTRO), isPause(false), exactTime(0)
 { 
-	isPause = false;
-	exactTime = 0;
 }
 
 //Removes the state
@@ -58,6 +56,11 @@ bool GameState::handleInput(sf::Event event)
 			pause();
 			return true;
 		}
+		else if(currentAction == ActioType::INTRO && pam != NULL)
+		{
+			pam->handleInput(event);
+			return true;
+		}
 	}
 	else
 	{
@@ -69,7 +72,7 @@ bool GameState::handleInput(sf::Event event)
 	}
 	if (data->input.isSpriteClicked(backButton, sf::Mouse::Left, data->window))
 	{
-		sounds->playGameSound(mouseClickSound);
+		sounds->playGameSound(SoundGameType::MOUSE_CLICKED_SOUND);
 		removeState();
 		return true;
 	}
@@ -79,7 +82,7 @@ bool GameState::handleInput(sf::Event event)
 //Pause the game
 void GameState::pause()
 {
-	sounds->playGameSound(mouseClickSound);
+	sounds->playGameSound(SoundGameType::MOUSE_CLICKED_SOUND);
 	sounds->pause();
 	isPause = true;
 	exactTime += clock.getElapsedTime().asSeconds();
@@ -89,18 +92,17 @@ void GameState::pause()
 void GameState::resume()
 {
 	isPause = false;
-	if (actionType != GoOtherState)
+	if (currentAction == ActioType::OTHER_STATE)
 	{
-		restartClock();
-	}
-	else
-	{
-		actionType = stand;
+		currentAction = ActioType::STAND;
 		if (Game::getIsGameOver())
 		{
 			gameOver();
-			return;
 		}
+	}
+	else
+	{
+		restartClock();
 	}
 	sounds->resume();
 }
@@ -110,11 +112,10 @@ void GameState::draw(float dt)
 {
 	data->window.draw(pauseButton);
 	data->window.draw(backButton);
-	if (actionType == intro && pam != NULL) //Draws pam if needed
+	if (currentAction == ActioType::INTRO && pam != NULL) //Draws pam if needed
 	{
 		pam->draw();
 	}
-
 	if (isPause)
 	{
 		data->window.draw(darkScreen);
@@ -151,8 +152,8 @@ void GameState::gameOver()
 	{
 		delete pam;
 	}
-	pam = new BigPam(data, loose);
-	actionType = intro;
+	pam = new BigPam(data, LOOSE_PAM, BigPam::TITLE, !BigPam::WINNING_TITLE);
+	currentAction = ActioType::INTRO;
 	Game::gameOver();
 	sounds->stop();
 }
@@ -160,14 +161,10 @@ void GameState::gameOver()
 //Checks the pet's mood
 void GameState::petMood()
 {
-	int mood = pet->mood();
-	if (mood != moodNumber)
+	MoodType currentMood = pet->getMood();
+	if (currentMood == MoodType::DEAD_MOOD)
 	{
-		moodNumber = mood;
-		if (moodNumber == -1)
-		{
-			gameOver();
-		}
+		gameOver();
 	}
 }
 
@@ -176,7 +173,7 @@ void GameState::updatePam()
 {
 	if (pam->getIsDone())
 	{
-		actionType = stand;
+		currentAction = ActioType::STAND;
 		restartClock();
 		if (Game::getIsGameOver())
 		{

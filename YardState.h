@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include "State.h"
 #include "GameState.h"
@@ -7,13 +7,14 @@
 #include "SoundManage.h"
 #include "Definitions.h"
 #include "TicTacToe.h"
+#include "ToysMenu.h"
 
 //A subclass of GameState - Yard state for playing a game with a pet
 class YardState : public GameState
 {
 public:
 	//Constructor
-	YardState(gameDataRef data, SoundManage* sounds, EffectsControl *effects, Pet* pet, int gameType);
+	YardState(gameDataRef data, SoundManage* sounds, EffectsControl *effects, Pet* pet, ToysType gamePlayed);
 	//Destructor
 	~YardState() { }
 	//Init
@@ -31,7 +32,7 @@ private:
 	//Start playing when pet is being touched
 	void touchPet();
 	//Stops current action
-	void stopAction();
+	void stopAction(int xp);
 	//Game over
 	void gameOver();
 
@@ -39,11 +40,10 @@ private:
 
 	TicTacToe* ticTacToe;
 
-	int gameType;
+	ToysType gamePlayed;
 	bool isPlayed; //Is the pet playing at the moment
 	int gameStatus;
 
 	const float PET_PLAYS_TIME = 2.0f;
 	const int PLAYING_PET_XP = 2;
 };
-

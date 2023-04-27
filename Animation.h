@@ -24,7 +24,7 @@ public:
 	Animation(gameDataRef data, const std::string& textureFileName, int numFrames);
 	Animation(gameDataRef data, const std::string& textureFileName, int numFrames, sf::Vector2f position);
 	//Destructor
-	~Animation() {}
+	~Animation() = default;
 	//Sends the name of the current action is being played
 	std::string getCurrentAction();
 	//Sends the sprite's width

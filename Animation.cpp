@@ -3,12 +3,8 @@
 
 //Constructor gets a data, the name of the file of the sprite and numbers of frames on the file and load all frames into animationFrames
 Animation::Animation(gameDataRef data, const std::string& textureFileName, int numFrames) :
-	data(data)
+	animationIterator(0), isReverse(false), currentAction(""), totalFramesNumbers(numFrames), data(data)
 {
-	animationIterator = 0;
-	isReverse = false;
-	currentAction = "";
-	totalFramesNumbers = numFrames;
 	for (int i = 0; i < numFrames; i++)
 	{
 		data->assets.loadTexture(textureFileName + std::to_string(i), textureFileName + std::to_string(i) + ".png");

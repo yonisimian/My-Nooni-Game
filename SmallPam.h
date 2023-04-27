@@ -7,16 +7,16 @@ class SmallPam : public Pam
 {
 public:
 	//Constructor
-	SmallPam(gameDataRef data, int type);
+	SmallPam(gameDataRef data, const std::vector<std::string_view>(&pamSpeech));
 	//Destructor
 	~SmallPam() { }
 
 protected:
-	//Sets the frames of pam's speech
-	void setFrames(int type);
+
+	//Init
+	void init();
 
 	//Distance between text and background's frame
 	const int DIST_TEXT_BACKGROUND_X = 120;
 	const int DIST_TEXT_BACKGROUND_Y = 100;
 };
-

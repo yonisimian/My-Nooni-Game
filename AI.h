@@ -12,7 +12,7 @@ public:
 	//Constructor
 	Ai(gameDataRef data);
 	//Destructor
-	~Ai() { }
+	~Ai() = default;
 	//Gets a board, a board of sprites, a gameState for turn and places an O piece on board
 	void placePiece(int(*gridArray)[ROW_PIECES][ROW_PIECES], sf::Sprite gridPieces[ROW_PIECES][ROW_PIECES], int* gameState);
 

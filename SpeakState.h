@@ -6,6 +6,7 @@
 #include "Pam.h"
 #include "Pet.h"
 #include <vector>
+#include <array> 
 #include <SFML/Graphics.hpp>
 
 //A subclass of GameState - Speak class for teaching a pet how to talk
@@ -31,7 +32,7 @@ private:
 	//Pet the pet
 	void touchPet();
 	//Stops current action
-	void stopAction();
+	void stopAction(int xp);
 	//Game over
 	void gameOver();
 	//Remove this state
@@ -52,6 +53,24 @@ private:
 	float startPetTime;
 
 	const int WORD_BUTTON_DIS_HEIGHT = 60;
-	const int WORD_BUTTON_DIS_WIDTH = 175;
-};
+	const int WORD_BUTTON_DIS_WIDTH = 175;	
+	const int X_FIRST_BUTTON_POSITION = 190;
+	const int Y_FIRST_BUTTON_POSITION = 100;
+	const int NUMBER_BUTTON_ROW = 4;
 
+	const std::vector <std::string_view > SPEAK_PAM = {
+		"Welcome to the \nSpeaking class...",
+		"This is the place where\nYour nooni can learn new\nWords and speak...",
+		"The words are blocked.\nIn order to open them\nAnd teach your nooni...",
+		"Please press on\nThe locked buttons...",
+		"Please give your nooni as\nMuch time as he needs\nTo complete his learning...",
+		"After finishing his learning\nYou can press on the word \nButton and he will say it..."
+	};
+
+	//Words to learn array
+	const std::array <std::string_view, 12 > WORDS = {
+		"Nooni", "Hello", "Mommy", "Daddy", 
+		"Happy", "Sad", "I love U", "I can talk",
+		"My room", "You are pretty", "Let's play", "I love pizza"
+	};
+};

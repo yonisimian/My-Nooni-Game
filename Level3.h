@@ -16,6 +16,14 @@ protected:
 	//Game over and the user is winning
 	virtual void levelUp();
 
-	const int GROWING_TIME = 600.0f;
-};
+	const std::vector<std::string_view > ADULT_PAM = {
+		"Good news!\nYour Nooni just grew \nInto an adult...",
+		"Now the refrigerator is full\nWith new different kind of\nFood..",
+		"Now you can teach him\nMore new words at the \nSpeaking class...",
+		"I'm going to come back as \nSoom as I can, please keep\nTaking care for him..."
+	};
 
+	const std::vector<std::string_view > WIN_PAM = {
+		"Hello again, neighbor!\nThank you for the good \nTreatment you gave \nMy Nooni, now I'm going back \nHome, you can take care \nOf him again next time!..."
+	};
+};

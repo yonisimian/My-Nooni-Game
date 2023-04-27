@@ -8,9 +8,11 @@ class Pam
 {
 public:
 	//Constructor
-	Pam(gameDataRef data);
+	Pam(gameDataRef data, const std::vector<std::string_view >(&pamSpeech));
 	//Destructor
 	~Pam() { }
+	//Init
+	virtual void init() = 0;
 	//Gets if speech is over
 	bool getIsDone();
 	//Draws
@@ -20,7 +22,7 @@ public:
 
 protected:
 	//Sets pam'S speech frames
-	virtual void setFrames(int type) = 0;
+	void setFrames(const std::vector<std::string_view >(&pamSpeech));
 	//Goes to the next frame
 	void goNext();
 
@@ -28,7 +30,7 @@ protected:
 	sf::Font font;
 	sf::Text text;
 
-	std::vector <std::string> framesStrings; //Strings of pam's speech by frames
+	std::vector <std::string_view > framesStrings; //Strings of pam's speech by frames
 
 	int currentFrame;
 
@@ -36,4 +38,3 @@ protected:
 
 	gameDataRef data;
 };
-

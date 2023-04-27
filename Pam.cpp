@@ -2,11 +2,8 @@
 #include <iostream>
 
 //Constructor gets a data
-Pam::Pam(gameDataRef data) : data(data)
+Pam::Pam(gameDataRef data, const std::vector<std::string_view >(&pamSpeech)) : data(data), currentFrame(0), isDone(false)
 {
-	currentFrame = 0;
-	isDone = false;
-
 	//Loads font for the text
 	if (!font.loadFromFile("fonts/retganon.ttf"))
 	{
@@ -19,6 +16,16 @@ Pam::Pam(gameDataRef data) : data(data)
 		text.setLineSpacing(1.2);
 		text.setFillColor(sf::Color{ 249, 85, 162, 255 }); //Color pink
 	}
+}
+
+//Sets the frames of pam's speech according to the type
+void Pam::setFrames(const std::vector<std::string_view >(&pamSpeech))
+{
+	for (const std::string_view frame : pamSpeech)
+	{
+		framesStrings.push_back(frame);
+	}
+	text.setString(static_cast<std::string>(framesStrings.at(currentFrame)));
 }
 
 //Gets if speech is over
@@ -48,7 +55,7 @@ void Pam::goNext()
 {
 	if (++currentFrame < framesStrings.size())
 	{
-		text.setString(framesStrings.at(currentFrame));
+		text.setString(static_cast<std::string>(framesStrings.at(currentFrame)));
 	}
 	else
 	{
