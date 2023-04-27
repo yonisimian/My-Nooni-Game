@@ -73,6 +73,7 @@ void Accessorizes::drawTable()
 {
 	if (visibleTable)
 	{
-		data->window.draw(accessorizes.at(static_cast<int>(TABLE)));
+		int tableIndex = static_cast<int>(TABLE);
+		data->window.draw(accessorizes.at(tableIndex));
 	}
 }
