@@ -4,11 +4,10 @@
 #include <iostream>
 
 //Constructor gets a data and sounds
-SelectState::SelectState(gameDataRef data, SoundManage* sounds) : data(data), sounds(sounds)
+SelectState::SelectState(gameDataRef data, SoundManage* sounds) : 
+	data(data), sounds(sounds), isInstruction(true), isEffect(false)
 {
-	pam = new BigPam(data, introduce);
-	isInstruction = true;
-	isEffect = false;
+	pam = new BigPam(data, SELECT_PAM, !BigPam::TITLE, !BigPam::WINNING_TITLE);
 }
 
 //Init
@@ -22,13 +21,13 @@ void SelectState::init()
 		data->window.getSize().y / 2 - windowSprite.getGlobalBounds().height / 2));
 
 	//Init eggs buttons
-	data->assets.loadTexture("Select Menu Bunny Button", ANGEL + std::to_string(0) + ".png");
+	data->assets.loadTexture("Select Menu Bunny Button", ANGEL_FOLDER + std::to_string(0) + ".png");
 	animalButtons[0].setTexture(data->assets.getTexture("Select Menu Bunny Button"));
-	data->assets.loadTexture("Select Menu Fox Button", COCO + std::to_string(0) + ".png");
+	data->assets.loadTexture("Select Menu Fox Button", COCO_FOLDER + std::to_string(0) + ".png");
 	animalButtons[1].setTexture(data->assets.getTexture("Select Menu Fox Button"));
-	data->assets.loadTexture("Select Menu Penguin Button", FIFI + std::to_string(0) + ".png");
+	data->assets.loadTexture("Select Menu Penguin Button", FIFI_FOLDER + std::to_string(0) + ".png");
 	animalButtons[2].setTexture(data->assets.getTexture("Select Menu Penguin Button"));
-	data->assets.loadTexture("Select Menu Pug Button", BOO + std::to_string(0) + ".png");
+	data->assets.loadTexture("Select Menu Pug Button", BOO_FOLDER + std::to_string(0) + ".png");
 	animalButtons[3].setTexture(data->assets.getTexture("Select Menu Pug Button"));
 
 	data->assets.loadTexture("Select Menu Back Button", BACK_BUTTON);
@@ -109,20 +108,20 @@ bool SelectState::handleInput(sf::Event event)
 			}
 		}
 		//Checks if one egg is being selected and starts new game
-		for (int i = 0; i < NUMBER_EGG; i++)
+		for (int eggIndex = 0; eggIndex < NUMBER_EGG; eggIndex++)
 		{
-			if (data->input.isSpriteClicked(animalButtons[i], sf::Mouse::Left, data->window))
+			if (data->input.isSpriteClicked(animalButtons[eggIndex], sf::Mouse::Left, data->window))
 			{
 				Game::startNewGame();
-				sounds->playGameSound(happyPetSound);
-				data->machine.addState(StateRef(new Level1(data, sounds, i)), true);
+				sounds->playGameSound(SoundGameType::HAPPY_PET_SOUND);
+				data->machine.addState(StateRef(new Level1(data, sounds, static_cast<NooniName>(eggIndex))), true);
 				return true;
 			}
 		}
 	}
 	if (data->input.isSpriteClicked(backButton, sf::Mouse::Left, data->window))
 	{
-		sounds->playGameSound(mouseClickSound);
+		sounds->playGameSound(SoundGameType::MOUSE_CLICKED_SOUND);
 		data->machine.removeState();
 	}
 	return true;
