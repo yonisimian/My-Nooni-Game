@@ -1,29 +1,15 @@
-﻿#include "Level1.h"
+#include "Level1.h"
 #include "Level2.h"
 #include "SmallPam.h"
 #include "BigPam.h"
 
 //Constructor gets a data, sounds and the type of the pet
-Level1::Level1(gameDataRef data, SoundManage* sounds, int type) : LevelState(data, sounds, new EffectsControl(data), new Pet(data,type))
+Level1::Level1(gameDataRef data, SoundManage* sounds, NooniName type) : 
+	LevelState(data, sounds, new EffectsControl(data), new Pet(data,type))
 {
-	pam = new SmallPam(data, eggExplanation);
+	endLevel = 60.0;
+	pam = new SmallPam(data, EGG_PAM);
 	pet->setPosition(sf::Vector2f(data->window.getSize().x / 2 - EGG_WIDTH / 2, EGG_Y_POSTION));
-}
-
-//Handles input
-bool Level1::handleInput(sf::Event event)
-{
-	if (!LevelState::handleInput(event))
-	{
-		if (!isPause)
-		{
-			if (actionType == intro)
-			{
-				pam->handleInput(event);
-			}
-		}
-	}
-	return true;
 }
 
 //Updates pam, effects and checks if it's time for the egg to grow
@@ -31,25 +17,22 @@ void Level1::update(float dt)
 {
 	if (!isPause)
 	{
-		if (actionType == intro)
+		if (currentAction == ActioType::INTRO)
 		{
 			updatePam(); //Updates pam's speech
 		}
 		else
 		{
-			if (pet->getActionType() == stand)
+			if (currentAction == ActioType::STAND)
 			{
-				if (clock.getElapsedTime().asSeconds() + exactTime > GROWING_TIME)
+				if (clock.getElapsedTime().asSeconds() + exactTime > endLevel)
 				{
 					levelUp(); //Growing pet
 				}
 			}
-			else
+			else if(currentAction == ActioType::GROW && !effects->isEffect())
 			{
-				if(actionType == growing && !effects->isEffect())
-				{
-					stopAction();
-				}
+				stopAction();
 			}
 			GameState::update(dt);
 		}
@@ -67,19 +50,19 @@ void Level1::draw(float dt)
 //Level up the pet
 void Level1::levelUp()
 {
-	actionType = growing;
-	sounds->playActionSound(growingSound);
+	currentAction = ActioType::GROW;
+	sounds->playActionSound(SoundActionType::GROW_SOUND);
 	pet->grow();
-	effects->startEffect(growingEggEffect);
+	effects->startEffect(EffectType::GROW_EGG_EFFECT);
 }
 
 //Stops current action
 void Level1::stopAction()
 {
 	sounds->stop();
-	if (actionType == growing)
+	if (currentAction == ActioType::GROW)
 	{
-		actionType = stand;
+		currentAction = ActioType::STAND;
 		pet->stopAction(0);
 		data->machine.addState(StateRef(new Level2(data, sounds, effects, pet)), true); //Goes to Level2
 	}
