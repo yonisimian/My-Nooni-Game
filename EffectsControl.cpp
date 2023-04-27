@@ -36,21 +36,21 @@ void EffectsControl::addEffects()
 	effects.at(static_cast<int>(EffectType::SLEEP_EFFECT))->addAction("effect", 0, 22, 0.04, false);
 	effects.at(static_cast<int>(EffectType::BATH_EFFECT))->addAction("effect", 0, 25, 0.09, false);
 
-	for (int i = static_cast<int>(EffectType::MILK_EFFECT); i <= static_cast<int>(EffectType::CHOCOLATE_EFFECT); i++)
+	for (int foodIndex = static_cast<int>(EffectType::MILK_EFFECT); foodIndex <= static_cast<int>(EffectType::CHOCOLATE_EFFECT); foodIndex++)
 	{
-		effects.at(i)->addAction("effect", 0, 3, 2.0f, false);
+		effects.at(foodIndex)->addAction("effect", 0, 3, 2.0f, false);
 	}
 
-	for (int i = static_cast<int>(EffectType::BALL_EFFECT); i <= static_cast<int>(EffectType::CAR_EFFECT); i++)
+	for (int toyIndex = static_cast<int>(EffectType::BALL_EFFECT); toyIndex <= static_cast<int>(EffectType::CAR_EFFECT); toyIndex++)
 	{
-		effects.at(i)->addAction("effect", 0, 9, 0.05f, true);
+		effects.at(toyIndex)->addAction("effect", 0, 9, 0.05f, true);
 	}
 
 	effects.at(static_cast<int>(EffectType::PET_EFFECT))->addAction("effect", 0, 7, 0.09f, false);
 
-	for (int i = static_cast<int>(EffectType::GROW_EGG_EFFECT); i <= static_cast<int>(EffectType::GROW_BABY_EFFECT); i++)
+	for (int growIndex = static_cast<int>(EffectType::GROW_EGG_EFFECT); growIndex <= static_cast<int>(EffectType::GROW_BABY_EFFECT); growIndex++)
 	{
-		effects.at(i)->addAction("effect", 0, 9, 0.2f, false);
+		effects.at(growIndex)->addAction("effect", 0, 9, 0.2f, false);
 	}
 }
 
@@ -87,6 +87,7 @@ void EffectsControl::startEffect(EffectType effectNumber)
 	if (effectNumber >= EffectType::SLEEP_EFFECT && effectIndex < effects.size())
 	{
 		currentEffect = effectNumber;
+		countAnimation = 0;
 		//Changes maxAnimation accordding to type of the effect
 		if (effectNumber == EffectType::SLEEP_EFFECT)
 		{
@@ -110,7 +111,7 @@ void EffectsControl::startEffect(EffectType effectNumber)
 //Sends if effects is being played
 bool EffectsControl::isEffect()
 {
-	return (currentEffect > -1);
+	return (currentEffect != EffectType::NO_EFFECT);
 }
 
 //Stops current effect
